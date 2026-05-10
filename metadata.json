@@ -1,0 +1,10 @@
+{
+  "name": "Remix: GF Collection - The Power House of Fashion",
+  "description": "Premium luxury fashion boutique for classy Kenyan ladies. Located in Kakamega, near MMUST.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone",
+    "geolocation"
+  ],
+  "majorCapabilities": []
+}

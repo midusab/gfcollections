@@ -1,0 +1,83 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Poppins:wght@300;400;600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-serif: "Playfair Display", serif;
+  --font-sans: "Poppins", sans-serif;
+  
+  --color-luxury-black: #121212;
+  --color-luxury-navy: #0A1931;
+  --color-luxury-white: #FFFFFF;
+  --color-luxury-glass: rgba(255, 255, 255, 0.08);
+  --color-luxury-gold: #D4AF37;
+  --color-luxury-beige: #F5F1ED;
+  --color-luxury-pink: #FDE2E4;
+  --color-luxury-blue: #0F52BA;
+  --color-luxury-ice: #DCEBFF;
+}
+
+@layer base {
+  body {
+    @apply font-sans bg-luxury-white text-luxury-black selection:bg-luxury-blue/20;
+    -webkit-font-smoothing: antialiased;
+  }
+}
+
+@layer components {
+  .glass-card {
+    @apply bg-luxury-glass backdrop-blur-2xl border border-white/10 shadow-[0_32px_64px_-15px_rgba(0,0,0,0.3)];
+  }
+  
+  .luxury-button {
+    @apply rounded-xl px-12 py-5 text-[11px] uppercase tracking-[0.3em] font-bold transition-all duration-500 active:scale-95 flex items-center justify-center gap-3 relative overflow-hidden;
+  }
+
+  .btn-gradient {
+    @apply bg-gradient-to-r from-[#0F52BA] to-[#1E90FF] text-white shadow-[0_20px_50px_rgba(15,82,186,0.25)] hover:shadow-[0_25px_60px_rgba(15,82,186,0.45)] hover:-translate-y-1;
+  }
+
+  .btn-outline {
+    @apply border border-luxury-navy/10 text-luxury-navy hover:bg-luxury-navy hover:text-white hover:border-luxury-navy shadow-sm hover:shadow-xl;
+  }
+}
+
+.reveal-on-scroll {
+  animation: reveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes reveal {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.zoom-on-hover img {
+  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.zoom-on-hover:hover img {
+  transform: scale(1.08);
+}
+
+.hero-gradient {
+  background: linear-gradient(to bottom, rgba(18, 18, 18, 0.4) 0%, rgba(18, 18, 18, 0.7) 100%);
+}
+
+.glass {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.glass-dark {
+  background: rgba(18, 18, 18, 0.6);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.luxury-shadow {
+  box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.15), 0 18px 36px -18px rgba(0, 0, 0, 0.2);
+}
+
+.nav-link {
+  @apply text-[10px] uppercase tracking-[0.2em] font-bold transition-colors hover:text-luxury-gold;
+}
