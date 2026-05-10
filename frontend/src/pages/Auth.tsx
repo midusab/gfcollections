@@ -38,7 +38,7 @@ export default function Auth() {
         if (error) throw error;
         navigate('/account');
       } else {
-        const { error } = await supabase.auth.signUp({
+        const { data, error } = await supabase.auth.signUp({
           email,
           password,
           options: {
@@ -50,8 +50,13 @@ export default function Auth() {
           },
         });
         if (error) throw error;
-        setIsLogin(true);
-        setError('Success! Please check your email for verification or log in.');
+        
+        if (data?.session) {
+          navigate('/account');
+        } else {
+          setIsLogin(true);
+          setError('Account created! Please sign in.');
+        }
       }
     } catch (err: any) {
       setError(err.message);
