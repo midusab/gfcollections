@@ -19,6 +19,7 @@ export default function Auth() {
   const [fullName, setFullName] = useState('');
   const [phone, setPhone] = useState('');
   const [locationStr, setLocationStr] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [forceShow, setForceShow] = useState(false);
 
   // Safety timeout to prevent stuck spinner
