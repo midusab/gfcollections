@@ -21,6 +21,7 @@ import { AuthProvider } from './context/AuthContext';
 import { CartProvider } from './context/CartContext';
 import Auth from './pages/Auth';
 import Account from './pages/Account';
+import Admin from './pages/Admin';
 
 // Scroll to top on route change
 function ScrollToTop() {
