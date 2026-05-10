@@ -13,7 +13,9 @@ import {
   CheckCircle2, 
   Clock,
   Settings,
-  CreditCard
+  CreditCard,
+  Camera,
+  Loader2
 } from 'lucide-react';
 
 export default function Account() {
@@ -73,6 +75,51 @@ export default function Account() {
     }
   };
 
+  const [uploading, setUploading] = useState(false);
+
+  const handleAvatarUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    try {
+      setUploading(true);
+      setMessage(null);
+
+      if (!e.target.files || e.target.files.length === 0) {
+        throw new Error('You must select an image to upload.');
+      }
+
+      const file = e.target.files[0];
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${user?.id}-${Math.random()}.${fileExt}`;
+      const filePath = `avatars/${fileName}`;
+
+      // 1. Upload to Supabase Storage
+      const { error: uploadError } = await supabase.storage
+        .from('avatars')
+        .upload(filePath, file);
+
+      if (uploadError) throw uploadError;
+
+      // 2. Get Public URL
+      const { data: { publicUrl } } = supabase.storage
+        .from('avatars')
+        .getPublicUrl(filePath);
+
+      // 3. Update Profile in DB
+      const { error: updateError } = await supabase
+        .from('profiles')
+        .update({ avatar_url: publicUrl })
+        .eq('id', user?.id);
+
+      if (updateError) throw updateError;
+
+      await refreshProfile();
+      setMessage({ type: 'success', text: 'Profile picture updated!' });
+    } catch (err: any) {
+      setMessage({ type: 'error', text: err.message });
+    } finally {
+      setUploading(false);
+    }
+  };
+
   const handleSignOut = async () => {
     await signOut();
     navigate('/');
@@ -95,11 +142,34 @@ export default function Account() {
           <div className="w-full md:w-80 space-y-4">
             <div className="glass-card !bg-white p-8 rounded-[2.5rem] border-luxury-beige/20 shadow-xl shadow-luxury-blue/5">
               <div className="flex items-center gap-4 mb-8">
-                <div className="w-16 h-16 bg-luxury-blue/10 rounded-full flex items-center justify-center text-luxury-blue font-serif italic text-2xl">
-                  {fullName ? fullName[0] : user?.email?.[0].toUpperCase()}
+                <div className="relative group/avatar cursor-pointer">
+                  <div className="w-16 h-16 bg-luxury-blue/10 rounded-full flex items-center justify-center text-luxury-blue font-serif italic text-2xl overflow-hidden border-2 border-transparent group-hover/avatar:border-luxury-blue transition-all">
+                    {profile?.avatar_url ? (
+                      <img src={profile.avatar_url} alt={fullName} className="w-full h-full object-cover" />
+                    ) : (
+                      <span>{fullName ? fullName[0] : user?.email?.[0].toUpperCase()}</span>
+                    )}
+                    
+                    <div className="absolute inset-0 bg-luxury-navy/40 flex items-center justify-center opacity-0 group-hover/avatar:opacity-100 transition-opacity">
+                      {uploading ? (
+                        <Loader2 className="w-5 h-5 text-white animate-spin" />
+                      ) : (
+                        <Camera className="w-5 h-5 text-white" />
+                      )}
+                    </div>
+                  </div>
+                  <input 
+                    type="file" 
+                    id="avatar-upload"
+                    accept="image/*"
+                    className="hidden"
+                    onChange={handleAvatarUpload}
+                    disabled={uploading}
+                  />
+                  <label htmlFor="avatar-upload" className="absolute inset-0 cursor-pointer" />
                 </div>
                 <div>
-                  <h2 className="font-serif italic text-xl text-luxury-black truncate w-40">{fullName || 'Valued Client'}</h2>
+                  <h2 className="font-serif italic text-xl text-luxury-black truncate w-32">{fullName || 'Valued Client'}</h2>
                   <p className="text-[10px] uppercase tracking-widest text-slate-400 font-bold">Premium Member</p>
                 </div>
               </div>

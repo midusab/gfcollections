@@ -30,7 +30,7 @@
   }
   
   .luxury-button {
-    @apply rounded-xl px-12 py-5 text-[11px] uppercase tracking-[0.3em] font-bold transition-all duration-500 active:scale-95 flex items-center justify-center gap-3 relative overflow-hidden;
+    @apply rounded-none px-12 py-5 text-[11px] uppercase tracking-[0.3em] font-bold transition-all duration-500 active:scale-95 flex items-center justify-center gap-3 relative overflow-hidden;
   }
 
   .btn-gradient {
