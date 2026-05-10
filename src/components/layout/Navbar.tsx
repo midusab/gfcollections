@@ -45,15 +45,6 @@ const navigationLinks = [
       { name: "Mini Bags", category: "All" },
     ]
   },
-  { 
-    name: "Collections", 
-    href: "/collections", 
-    dropdown: [
-      { name: "Boss Lady Edit", category: "Office Dresses" },
-      { name: "Date Night Edit", category: "Date Night" },
-      { name: "Weekend Fits", category: "Weekend Casual" },
-    ]
-  },
   { name: "Sale", href: "/collections", category: "Sexy Wear" },
 ];
 
@@ -106,7 +97,7 @@ export default function Navbar() {
           >
             <div className="max-w-4xl mx-auto">
               <div className="flex justify-between items-center mb-16">
-                <span className="text-[11px] tracking-[0.3em] font-semibold text-luxury-gold">Search the collection</span>
+                <span className="text-[11px] tracking-[0.3em] font-semibold text-luxury-gold uppercase">Explore the house</span>
                 <button 
                   onClick={() => setIsSearchOpen(false)}
                   className="p-2 hover:bg-luxury-beige rounded-full transition-colors"
@@ -222,7 +213,7 @@ export default function Navbar() {
                 </button>
               </div>
               <nav className="flex flex-col gap-1">
-                {navigationLinks.filter(l => ["Dresses", "Shoes", "Bags", "Collections", "Sale"].includes(l.name)).map((link) => (
+                {navigationLinks.filter(l => ["Dresses", "Shoes", "Bags", "Sale"].includes(l.name)).map((link) => (
                   <div key={link.name} className="border-b border-luxury-beige last:border-0">
                     <Link 
                       to={link.href} 
@@ -238,7 +229,7 @@ export default function Navbar() {
                 
                 <div className="mt-12 space-y-6">
                   <div className="flex flex-wrap gap-4">
-                    {navigationLinks.filter(l => !["Dresses", "Shoes", "Bags", "Collections", "Sale"].includes(l.name)).map(link => (
+                    {navigationLinks.filter(l => !["Dresses", "Shoes", "Bags", "Sale"].includes(l.name)).map(link => (
                       <Link 
                         key={link.name}
                         to={link.href}
@@ -265,18 +256,12 @@ export default function Navbar() {
       </AnimatePresence>
 
       <nav className={`fixed inset-x-0 top-0 z-[120] transition-all duration-700 ${navScrolled ? 'bg-luxury-navy/90 backdrop-blur-2xl py-4 border-b border-white/5 shadow-2xl' : 'bg-transparent py-8 border-b border-transparent'}`}>
-        <div className="max-w-7xl mx-auto px-6 md:px-8 flex items-center justify-between">
-          <div className="flex items-center gap-12 lg:gap-16">
-            <Link to="/" className="flex items-center py-1 group">
-              <motion.img 
-                whileHover={{ scale: 1.05 }}
-                src="/logo.png" 
-                alt="GF COLLECTION" 
-                className="h-10 md:h-14 w-auto transition-all brightness-0 invert" 
-                referrerPolicy="no-referrer" 
-              />
-            </Link>
-            
+        <div className="max-w-7xl mx-auto px-6 md:px-8 flex items-center justify-between relative">
+          {/* Left: Desktop Links / Mobile Menu Button */}
+          <div className="flex-1 flex items-center">
+            <button onClick={() => setIsMenuOpen(true)} className="p-4 bg-white/5 rounded-full hover:bg-white/10 transition-colors lg:hidden border border-white/5 mr-4">
+              <Menu className="w-5 h-5 text-white" />
+            </button>
             <div className="hidden lg:flex gap-6 xl:gap-10 items-center whitespace-nowrap">
               {navigationLinks.map((link) => (
                 <div key={link.name} className="relative group/nav flex items-center h-full">
@@ -296,10 +281,10 @@ export default function Navbar() {
                            <p className="text-[9px] tracking-[0.4em] text-luxury-gold font-bold border-b border-white/5 pb-4 mb-4 uppercase">The selection</p>
                            {link.dropdown.map(item => (
                              <Link 
-                               key={item.name}
-                               to="/collections"
-                               state={{ category: item.category }}
-                               className="text-[10px] uppercase tracking-[0.4em] font-bold text-white/40 hover:text-white transition-all flex items-center justify-between group/item"
+                                key={item.name}
+                                to="/collections"
+                                state={{ category: item.category }}
+                                className="text-[10px] uppercase tracking-[0.4em] font-bold text-white/40 hover:text-white transition-all flex items-center justify-between group/item"
                              >
                                {item.name}
                                <ChevronRight className="w-3.5 h-3.5 opacity-0 -translate-x-2 group-hover/item:opacity-100 group-hover/item:translate-x-0 transition-all text-luxury-blue" />
@@ -314,7 +299,21 @@ export default function Navbar() {
             </div>
           </div>
 
-          <div className="flex items-center gap-6 md:gap-12 text-white">
+          {/* Center: Logo */}
+          <div className="flex-none md:absolute md:left-1/2 md:-translate-x-1/2">
+            <Link to="/" className="flex items-center py-1 group">
+              <motion.img 
+                whileHover={{ scale: 1.05 }}
+                src="/logo.png" 
+                alt="GF COLLECTION" 
+                className="h-10 md:h-14 w-auto transition-all brightness-0 invert" 
+                referrerPolicy="no-referrer" 
+              />
+            </Link>
+          </div>
+
+          {/* Right: Search / Icons */}
+          <div className="flex-1 flex items-center justify-end gap-6 md:gap-12 text-white">
             <div className="hidden lg:flex items-center gap-10">
                <div 
                  onClick={() => setIsSearchOpen(true)}
@@ -336,10 +335,6 @@ export default function Navbar() {
                     <span className="absolute -top-1 -right-1 bg-luxury-blue text-white text-[8px] w-4.5 h-4.5 flex items-center justify-center rounded-full font-bold shadow-2xl shadow-luxury-blue/50">3</span>
                  </Link>
                </div>
-               
-               <button onClick={() => setIsMenuOpen(true)} className="p-4 bg-white/5 rounded-full hover:bg-white/10 transition-colors lg:hidden border border-white/5">
-                 <Menu className="w-5 h-5" />
-               </button>
             </div>
           </div>
         </div>
