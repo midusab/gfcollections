@@ -163,7 +163,7 @@ export default function Navbar() {
                 {/* Featured Category */}
                 {!searchQuery && (
                   <div className="hidden md:block">
-                    <h6 className="text-[10px] uppercase tracking-[0.4em] font-bold text-slate-400 mb-8">Featured Collection</h6>
+                    <h6 className="text-[10px] uppercase tracking-[0.4em] font-bold text-slate-400 mb-8">Featured</h6>
                     <div className="relative aspect-video overflow-hidden group/feat">
                       <img 
                         src="https://images.unsplash.com/photo-1539109132332-6299166a607e?q=80&w=1000&auto=format&fit=crop" 
@@ -206,7 +206,7 @@ export default function Navbar() {
             >
               <div className="flex justify-between items-center mb-12">
                 <Link to="/" onClick={() => setIsMenuOpen(false)} className="flex items-center">
-                  <img src="/logo.png" alt="GF COLLECTION" className="h-12 w-auto" referrerPolicy="no-referrer" />
+                  <img src="/logo.png" alt="GF" className="h-12 w-auto" referrerPolicy="no-referrer" />
                 </Link>
                 <button onClick={() => setIsMenuOpen(false)} className="p-2 -mr-2 text-luxury-black">
                   <X className="w-6 h-6" />
@@ -305,7 +305,7 @@ export default function Navbar() {
               <motion.img 
                 whileHover={{ scale: 1.05 }}
                 src="/logo.png" 
-                alt="GF COLLECTION" 
+                alt="GF" 
                 className="h-10 md:h-14 w-auto transition-all brightness-0 invert" 
                 referrerPolicy="no-referrer" 
               />
