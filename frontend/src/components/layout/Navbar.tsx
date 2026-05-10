@@ -17,6 +17,7 @@ import {
   LogOut
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
+import { useCart } from '../../context/CartContext';
 
 const navigationLinks = [
   { name: "New In", href: "/new-arrivals" },
@@ -53,6 +54,7 @@ const navigationLinks = [
 
 export default function Navbar() {
   const { user, signOut } = useAuth();
+  const { cartCount } = useCart();
   const [scrolled, setScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -365,7 +367,11 @@ export default function Navbar() {
                 className="p-2.5 text-luxury-black hover:text-luxury-blue transition-all relative"
                >
                   <ShoppingBag className="w-5 h-5" />
-                  <span className="absolute top-1.5 right-1.5 bg-luxury-blue text-white text-[7px] w-4 h-4 flex items-center justify-center rounded-none font-bold">3</span>
+                  {cartCount > 0 && (
+                    <span className="absolute top-1.5 right-1.5 bg-luxury-blue text-white text-[7px] w-4 h-4 flex items-center justify-center rounded-none font-bold">
+                      {cartCount}
+                    </span>
+                  )}
                </Link>
             </div>
           </div>
@@ -397,7 +403,11 @@ export default function Navbar() {
         <Link to="/collections" className={`flex flex-col items-center gap-2 ${location.pathname === '/collections' ? 'text-luxury-blue' : 'text-white/30 hover:text-white'}`}>
           <div className="relative">
             <ShoppingBag className="w-5 h-5 transition-colors" />
-            <span className="absolute -top-1 -right-1 bg-luxury-red text-white text-[7px] w-4 h-4 flex items-center justify-center rounded-none font-bold">3</span>
+            {cartCount > 0 && (
+              <span className="absolute -top-1 -right-1 bg-luxury-red text-white text-[7px] w-4 h-4 flex items-center justify-center rounded-none font-bold">
+                {cartCount}
+              </span>
+            )}
           </div>
           <span className="text-[8px] tracking-[0.2em] font-medium uppercase">Cart</span>
         </Link>

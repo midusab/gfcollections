@@ -18,6 +18,7 @@ import FAQ from './pages/FAQ';
 import WhatsAppButton from './components/ui/WhatsAppButton';
 
 import { AuthProvider } from './context/AuthContext';
+import { CartProvider } from './context/CartContext';
 import Auth from './pages/Auth';
 import Account from './pages/Account';
 
@@ -33,7 +34,8 @@ function ScrollToTop() {
 export default function App() {
   return (
     <AuthProvider>
-      <Router>
+      <CartProvider>
+        <Router>
         <ScrollToTop />
         <div className="min-h-screen selection:bg-luxury-blue selection:text-white bg-luxury-white">
           <Navbar />
@@ -55,6 +57,7 @@ export default function App() {
           <WhatsAppButton />
         </div>
       </Router>
-    </AuthProvider>
+    </CartProvider>
+  </AuthProvider>
   );
 }
