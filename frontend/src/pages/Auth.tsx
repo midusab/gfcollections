@@ -24,6 +24,12 @@ export default function Auth() {
     setError(null);
 
     try {
+      // Password validation
+      const passwordRegex = /.{8,}/;
+      if (!passwordRegex.test(password)) {
+        throw new Error('Password must be at least 8 characters long.');
+      }
+
       if (isLogin) {
         const { error } = await supabase.auth.signInWithPassword({
           email,
@@ -98,6 +104,13 @@ export default function Auth() {
           <form onSubmit={handleSubmit} className="space-y-6">
             <AnimatePresence mode="wait">
               {!isLogin && (
+                <motion.div
+                  key="register-fields"
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: 'auto' }}
+                  exit={{ opacity: 0, height: 0 }}
+                  className="space-y-6 overflow-hidden"
+                >
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-2">
                       <label className="text-[10px] uppercase tracking-widest font-bold text-slate-500 ml-4">Full Name</label>
@@ -143,6 +156,7 @@ export default function Auth() {
                       />
                     </div>
                   </div>
+                </motion.div>
               )}
             </AnimatePresence>
 
