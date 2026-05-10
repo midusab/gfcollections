@@ -23,7 +23,7 @@ export default function ProductCard({ product, onView }: ProductCardProps) {
       >
         {/* Promotion Tag */}
         {product.tag && (
-          <span className="absolute top-6 left-6 z-20 bg-luxury-gold text-white text-[9px] px-6 py-2.5 uppercase tracking-[0.2em] font-bold rounded-full shadow-2xl backdrop-blur-md border border-white/20">
+          <span className={`absolute top-6 left-6 z-20 ${product.tag.toLowerCase() === 'sale' ? 'bg-luxury-red' : 'bg-luxury-gold'} text-white text-[9px] px-6 py-2.5 uppercase tracking-[0.2em] font-bold rounded-full shadow-2xl backdrop-blur-md border border-white/20`}>
             {product.tag}
           </span>
         )}
@@ -44,8 +44,8 @@ export default function ProductCard({ product, onView }: ProductCardProps) {
 
         {/* Floating Icons */}
         <div className="absolute top-6 right-6 z-20 flex flex-col gap-4 transform translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-700 delay-100">
-           <button className="w-12 h-12 glass-card !bg-white/10 text-white rounded-full flex items-center justify-center hover:!bg-luxury-pink hover:text-white transition-all scale-90 group-hover:scale-100">
-              <Heart className="w-5 h-5" />
+           <button className="w-12 h-12 glass-card !bg-white/10 text-white rounded-full flex items-center justify-center hover:!bg-luxury-red hover:text-white transition-all scale-90 group-hover:scale-100">
+              <Heart className="w-5 h-5 transition-colors" />
            </button>
         </div>
 
@@ -71,7 +71,12 @@ export default function ProductCard({ product, onView }: ProductCardProps) {
           </h4>
         </div>
         <div className="w-12 h-[1px] bg-luxury-ice/50 mx-auto group-hover:w-24 group-hover:bg-luxury-gold transition-all duration-700" />
-        <p className="text-base md:text-lg font-bold text-luxury-navy/80 tracking-widest">{product.price}</p>
+        <div className="flex items-center justify-center gap-4">
+          <p className="text-base md:text-lg font-bold text-luxury-navy/80 tracking-widest">{product.price}</p>
+          {product.discount && (
+            <span className="text-[10px] font-bold text-luxury-red uppercase tracking-wider">{product.discount}</span>
+          )}
+        </div>
       </div>
     </motion.div>
   );

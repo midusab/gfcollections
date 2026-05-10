@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { X, ShoppingBag, Heart, MessageCircle, Star, ChevronLeft, ChevronRight } from 'lucide-react';
-import { Product } from '../types';
+import { Product } from '../ProductData';
 
 interface ProductModalProps {
   product: Product | null;
@@ -29,18 +29,18 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.9, y: 40 }}
           transition={{ type: "spring", damping: 25, stiffness: 300 }}
-          className="bg-white w-full max-w-6xl max-h-[90vh] overflow-hidden relative z-10 grid grid-cols-1 md:grid-cols-2 shadow-[0_100px_80px_-20px_rgba(0,0,0,0.4)] rounded-[2.5rem] border border-white/20"
+          className="bg-white w-full max-w-6xl h-full md:h-auto md:max-h-[90vh] overflow-hidden relative z-10 grid grid-cols-1 md:grid-cols-2 shadow-[0_100px_80px_-20px_rgba(0,0,0,0.4)] md:rounded-[2.5rem] border border-white/20"
         >
           {/* Close Button */}
           <button 
             onClick={onClose}
-            className="absolute top-8 right-8 z-20 w-12 h-12 bg-white/10 backdrop-blur-md rounded-full flex items-center justify-center text-white hover:bg-white hover:text-luxury-navy transition-all duration-300"
+            className="absolute top-4 right-4 md:top-8 md:right-8 z-20 w-10 h-10 md:w-12 md:h-12 bg-white/10 backdrop-blur-md rounded-full flex items-center justify-center text-white hover:bg-white hover:text-luxury-navy transition-all duration-300"
           >
-            <X className="w-6 h-6" />
+            <X className="w-5 h-5 md:w-6 md:h-6" />
           </button>
 
           {/* Left: Image Section */}
-          <div className="relative h-[400px] md:h-full bg-luxury-ice/20 overflow-hidden group">
+          <div className="relative h-[300px] sm:h-[400px] md:h-full bg-luxury-ice/20 overflow-hidden group">
             <img 
               src={product.image} 
               alt={product.name}
@@ -58,7 +58,7 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
           </div>
 
           {/* Right: Info Section */}
-          <div className="p-8 md:p-16 overflow-y-auto custom-scrollbar flex flex-col bg-white">
+          <div className="p-6 sm:p-10 md:p-16 overflow-y-auto custom-scrollbar flex flex-col bg-white">
             <div className="mb-8 md:mb-10">
               <div className="flex items-center gap-3 mb-4 md:mb-6">
                 <span className="text-luxury-gold uppercase tracking-[0.3em] text-[10px] font-bold">{product.category}</span>
@@ -69,17 +69,25 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
                 </div>
               </div>
               
-              <h2 className="text-3xl md:text-6xl font-serif italic text-luxury-navy mb-4 leading-tight">{product.name}</h2>
-              <p className="text-xl md:text-2xl font-bold text-luxury-navy/80 tracking-widest">{product.price}</p>
+              <h2 className="text-2xl sm:text-3xl md:text-6xl font-serif italic text-luxury-navy mb-4 leading-tight">{product.name}</h2>
+              <div className="flex items-center justify-between">
+                <p className="text-xl md:text-2xl font-bold text-luxury-navy/80 tracking-widest">{product.price}</p>
+                {product.isLimited && (
+                  <div className="flex items-center gap-2 px-3 py-1 bg-luxury-red/5 rounded-full border border-luxury-red/10">
+                     <div className="w-1.5 h-1.5 bg-luxury-red rounded-full animate-pulse" />
+                     <span className="text-[9px] font-bold text-luxury-red tracking-[0.1em] uppercase">Limited Stock</span>
+                  </div>
+                )}
+              </div>
             </div>
 
             <div className="space-y-10 flex-grow">
               <div>
-                <p className="text-[10px] uppercase tracking-[0.3em] font-bold text-slate-400 mb-6">Description</p>
-                <p className="text-luxury-navy/60 leading-relaxed text-sm font-light">
-                  Experience ultimate sophistication with our signature {product.name.toLowerCase()}. 
+                <p className="text-[10px] uppercase tracking-[0.3em] font-bold text-slate-400 mb-4 sm:mb-6">Description</p>
+                <p className="text-luxury-navy/60 leading-relaxed text-xs sm:text-sm font-light">
+                  Experience ultimate <span className="text-luxury-red/80 font-medium italic">sophistication</span> with our signature {product.name.toLowerCase()}. 
                   Tailored to perfection for the woman who commands attention, this piece combines 
-                  timeless elegance with modern Kenyan style. Perfect for {product.category.toLowerCase()} and high-status events.
+                  timeless elegance with modern Kenyan style. Perfect for <span className="text-luxury-red/80 font-medium italic">{product.category.toLowerCase()}</span> and high-status events.
                 </p>
               </div>
 
@@ -111,8 +119,8 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
                   <ShoppingBag className="w-4 h-4" />
                   {selectedSize ? `Reserve - ${selectedSize}` : 'Select Size'}
                 </button>
-                <button className="w-14 h-14 flex items-center justify-center border border-luxury-beige rounded-2xl hover:bg-luxury-pink/20 transition-all group">
-                  <Heart className="w-5 h-5 text-luxury-navy group-hover:text-luxury-pink transition-colors" />
+                <button className="w-14 h-14 flex items-center justify-center border border-luxury-beige rounded-2xl hover:bg-luxury-red hover:text-white transition-all group">
+                  <Heart className="w-5 h-5 text-luxury-navy group-hover:text-white transition-colors" />
                 </button>
               </div>
               

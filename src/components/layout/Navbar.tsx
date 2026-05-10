@@ -332,7 +332,7 @@ export default function Navbar() {
                <div className="relative group cursor-pointer">
                  <Link to="/collections" className="bg-white/5 p-4 rounded-full hover:bg-white/10 transition-all block relative border border-white/5">
                     <ShoppingBag className="w-5 h-5 text-white/60 group-hover:text-luxury-blue transition-colors" />
-                    <span className="absolute -top-1 -right-1 bg-luxury-blue text-white text-[8px] w-4.5 h-4.5 flex items-center justify-center rounded-full font-bold shadow-2xl shadow-luxury-blue/50">3</span>
+                    <span className="absolute -top-1 -right-1 bg-luxury-red text-white text-[8px] w-4.5 h-4.5 flex items-center justify-center rounded-full font-bold shadow-2xl shadow-luxury-red/50">3</span>
                  </Link>
                </div>
             </div>
@@ -365,7 +365,7 @@ export default function Navbar() {
         <Link to="/collections" className={`flex flex-col items-center gap-2 ${location.pathname === '/collections' ? 'text-luxury-blue' : 'text-white/30 hover:text-white'}`}>
           <div className="relative">
             <ShoppingBag className="w-5 h-5 transition-colors" />
-            <span className="absolute -top-1 -right-1 bg-luxury-blue text-white text-[7px] w-4 h-4 flex items-center justify-center rounded-full font-bold">3</span>
+            <span className="absolute -top-1 -right-1 bg-luxury-red text-white text-[7px] w-4 h-4 flex items-center justify-center rounded-full font-bold">3</span>
           </div>
           <span className="text-[8px] tracking-[0.2em] font-medium uppercase">Cart</span>
         </Link>

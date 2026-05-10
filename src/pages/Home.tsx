@@ -87,7 +87,10 @@ export default function Home() {
                 <img src="https://images.unsplash.com/photo-1595777457583-95e059d581b8?q=80&w=400" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
              </div>
              <div>
-                <p className="text-luxury-white/50 text-[10px] tracking-[0.3em] mb-1 italic uppercase">Exclusive edit</p>
+                <div className="flex items-center gap-2 mb-1">
+                   <p className="text-luxury-white/50 text-[10px] tracking-[0.3em] italic uppercase">Exclusive edit</p>
+                   <div className="w-1.5 h-1.5 bg-luxury-red rounded-full animate-pulse" />
+                </div>
                 <p className="text-white font-serif text-lg leading-tight mb-2">Midnight Bloom Maxi Dress</p>
                 <Link to="/collections" className="text-luxury-gold text-[9px] uppercase tracking-[0.3em] font-bold hover:text-white transition-colors">Discover details</Link>
              </div>

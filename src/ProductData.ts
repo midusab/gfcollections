@@ -10,6 +10,8 @@ export type Product = {
   weight: string;
   care: string;
   tag?: string;
+  discount?: string;
+  isLimited?: boolean;
   sizes: string[];
   colors: string[];
   occasions: string[];
@@ -59,6 +61,9 @@ export const PRODUCTS: Product[] = [
     fabric: "Stretch Satin",
     weight: "Light",
     care: "Hand wash.",
+    tag: "Sale",
+    discount: "25% OFF",
+    isLimited: true,
     sizes: ["S", "M"],
     colors: ["Red", "Black"],
     occasions: ["Date Night", "Dinner"]
@@ -135,6 +140,8 @@ export const PRODUCTS: Product[] = [
     fabric: "Ribbed Knit",
     weight: "Medium",
     care: "Machine wash.",
+    tag: "Sale",
+    discount: "15% OFF",
     sizes: ["S", "M", "L"],
     colors: ["Orange", "Grey"],
     occasions: ["Office", "Casual"]
