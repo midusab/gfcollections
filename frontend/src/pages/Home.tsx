@@ -8,7 +8,7 @@ import {
   Heart, 
 } from 'lucide-react';
 import { useState, useEffect } from 'react';
-import { PRODUCTS, Product } from '../ProductData';
+import { Product } from '../ProductData';
 import { Link } from 'react-router-dom';
 import ProductCard from '../components/ProductCard';
 import ProductModal from '../components/ProductModal';

@@ -1,30 +1,28 @@
-import { motion, AnimatePresence } from 'motion/react';
 import { useState, useEffect } from 'react';
-import { 
-  Heart, 
-  Eye, 
-  Star,
-  ShoppingBag,
-  X,
-  MessageCircle
-} from 'lucide-react';
-import { PRODUCTS, Product } from '../ProductData';
+import { Product } from '../ProductData';
 import ProductCard from '../components/ProductCard';
+import ProductModal from '../components/ProductModal';
+import { supabase } from '../lib/supabase';
+import { ShoppingBag } from 'lucide-react';
 
 export default function NewArrivals() {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
-  const [selectedProductSize, setSelectedProductSize] = useState<string | null>(null);
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const newArrivals = PRODUCTS.filter(p => p.tag === "New Arrival");
-
-  // Set default size when product is selected
   useEffect(() => {
-    if (selectedProduct) {
-      setSelectedProductSize(selectedProduct.sizes[0]);
-    } else {
-      setSelectedProductSize(null);
+    async function fetchProducts() {
+      setLoading(true);
+      const { data } = await supabase
+        .from('products')
+        .select('*')
+        .eq('tag', 'New Arrival');
+      
+      if (data) setProducts(data);
+      setLoading(false);
     }
-  }, [selectedProduct]);
+    fetchProducts();
+  }, []);
 
   return (
     <div className="pt-32 pb-24 bg-luxury-white min-h-screen">
@@ -39,119 +37,30 @@ export default function NewArrivals() {
         </header>
 
         {/* Product Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-8 gap-y-16">
-          {newArrivals.map((product) => (
-            <ProductCard 
-              key={product.id} 
-              product={product} 
-              onView={setSelectedProduct} 
-            />
-          ))}
-        </div>
+        {products.length > 0 ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-8 gap-y-16">
+            {products.map((product) => (
+              <ProductCard 
+                key={product.id} 
+                product={product} 
+                onView={setSelectedProduct} 
+              />
+            ))}
+          </div>
+        ) : (
+          <div className="text-center py-32 bg-[#F8F7F3] rounded-[3rem] border border-dashed border-luxury-ice max-w-4xl mx-auto">
+            <ShoppingBag className="w-16 h-16 text-luxury-ice mx-auto mb-8" />
+            <h3 className="text-2xl font-serif italic text-luxury-navy mb-4">No New Arrivals Yet</h3>
+            <p className="text-slate-400 font-light max-w-sm mx-auto">We are currently curating our next collection. Please check back shortly for our latest drops.</p>
+          </div>
+        )}
       </div>
 
       {/* Product Detail Modal */}
-      <AnimatePresence>
-        {selectedProduct && (
-          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-8">
-            <motion.div 
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setSelectedProduct(null)}
-              className="absolute inset-0 bg-luxury-black/80 backdrop-blur-md"
-            />
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.9, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.9, y: 20 }}
-              className="bg-white w-full max-w-5xl max-h-[90vh] overflow-hidden relative z-10 grid grid-cols-1 md:grid-cols-2 shadow-2xl rounded-sm"
-            >
-              <button 
-                onClick={() => setSelectedProduct(null)}
-                className="absolute top-6 right-6 z-20 text-luxury-black/20 hover:text-luxury-black transition-colors"
-              >
-                <X className="w-6 h-6" />
-              </button>
-
-              <div className="h-[400px] md:h-full bg-luxury-beige overflow-hidden">
-                <img 
-                  src={selectedProduct.image} 
-                  alt={selectedProduct.name} 
-                  className="w-full h-full object-cover transition-transform duration-1000 hover:scale-110"
-                  referrerPolicy="no-referrer"
-                />
-              </div>
-
-              <div className="p-8 md:p-16 overflow-y-auto bg-white flex flex-col">
-                <div className="mb-auto">
-                  <div className="flex justify-between items-start mb-6">
-                    <div>
-                      <p className="text-[10px] uppercase tracking-[0.3em] font-bold text-luxury-gold mb-2">{selectedProduct.category}</p>
-                      <h3 className="text-4xl font-serif italic text-luxury-black">{selectedProduct.name}</h3>
-                    </div>
-                    <p className="text-2xl font-bold text-luxury-blue">{selectedProduct.price}</p>
-                  </div>
-                  
-                  <div className="space-y-8 mb-12">
-                    <div>
-                      <h6 className="text-[10px] uppercase tracking-[0.2em] font-bold text-luxury-black/30 mb-3 border-b border-luxury-beige pb-2">Editorial Notes</h6>
-                      <p className="text-sm text-luxury-black/60 leading-relaxed font-light">{selectedProduct.description}</p>
-                    </div>
-                    
-                    <div className="grid grid-cols-2 gap-12">
-                      <div>
-                        <h6 className="text-[10px] uppercase tracking-[0.2em] font-bold text-luxury-black/30 mb-2">Compositon</h6>
-                        <p className="text-[11px] text-luxury-black font-medium">{selectedProduct.fabric}</p>
-                      </div>
-                      <div>
-                        <h6 className="text-[10px] uppercase tracking-[0.2em] font-bold text-luxury-black/30 mb-2">Weight</h6>
-                        <p className="text-[11px] text-luxury-black font-medium">{selectedProduct.weight}</p>
-                      </div>
-                    </div>
-
-                    <div>
-                      <h6 className="text-[10px] uppercase tracking-[0.2em] font-bold text-luxury-black/30 mb-2">Select Size</h6>
-                      <div className="flex gap-2 mt-2">
-                        {selectedProduct.sizes.map(s => (
-                          <button 
-                            key={s} 
-                            onClick={() => setSelectedProductSize(s)}
-                            className={`w-10 h-10 flex items-center justify-center border text-[10px] font-bold transition-all ${selectedProductSize === s ? 'bg-luxury-blue border-luxury-blue text-white' : 'border-luxury-beige text-luxury-black hover:border-luxury-gold'}`}
-                          >
-                            {s}
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="space-y-4">
-                  <div className="flex gap-4">
-                    <button className="flex-1 bg-luxury-blue text-white py-5 text-[11px] uppercase tracking-[0.3em] font-bold hover:bg-luxury-black transition-all flex items-center justify-center gap-3">
-                      <ShoppingBag className="w-4 h-4" />
-                      Add to Cart
-                    </button>
-                    <button className="px-6 border border-luxury-beige hover:bg-luxury-beige/50 transition-colors">
-                      <Heart className="w-4 h-4 text-luxury-black" />
-                    </button>
-                  </div>
-                  <a 
-                    href={`https://wa.me/254740275625?text=${encodeURIComponent(`Hello GF Collection,\nI want this ${selectedProduct.name} in size ${selectedProductSize}.`)}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-full flex items-center justify-center gap-3 py-5 bg-[#25D366] text-white text-[11px] uppercase tracking-[0.3em] font-bold hover:bg-[#128C7E] transition-all shadow-lg"
-                  >
-                    <MessageCircle className="w-4 h-4" />
-                    Order on WhatsApp
-                  </a>
-                </div>
-              </div>
-            </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
+      <ProductModal 
+        product={selectedProduct} 
+        onClose={() => setSelectedProduct(null)} 
+      />
     </div>
   );
 }

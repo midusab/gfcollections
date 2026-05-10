@@ -7,16 +7,29 @@ import {
   Filter,
   RotateCcw
 } from 'lucide-react';
-import { PRODUCTS, Product } from '../ProductData';
+import { Product } from '../ProductData';
 import { useLocation } from 'react-router-dom';
 import ProductCard from '../components/ProductCard';
 import ProductModal from '../components/ProductModal';
+import { supabase } from '../lib/supabase';
 
 export default function Collections() {
   const location = useLocation();
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState(false);
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
   
+  useEffect(() => {
+    async function fetchProducts() {
+      setLoading(true);
+      const { data } = await supabase.from('products').select('*');
+      if (data) setProducts(data);
+      setLoading(false);
+    }
+    fetchProducts();
+  }, []);
+
   // Filter States
   const [activeCategory, setActiveCategory] = useState("All");
   const [selectedSizes, setSelectedSizes] = useState<string[]>([]);
@@ -40,7 +53,7 @@ export default function Collections() {
   const [selectedStatuses, setSelectedStatuses] = useState<string[]>([]);
 
   const filteredProducts = useMemo(() => {
-    let result = [...PRODUCTS];
+    let result = [...products];
 
     // Category Filter
     if (activeCategory !== "All") {
