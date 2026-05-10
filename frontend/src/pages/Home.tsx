@@ -27,11 +27,8 @@ export default function Home() {
         .from('products')
         .select('*');
       
-      if (data && data.length > 0) {
+      if (data) {
         setProducts(data);
-      } else {
-        // Fallback to static data if DB is empty for initial setup
-        setProducts(PRODUCTS);
       }
       setLoading(false);
     }
@@ -174,15 +171,23 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-6 md:gap-x-10 gap-y-16 md:gap-y-20">
-            {filteredProducts.slice(0, 4).map((product) => (
-              <ProductCard 
-                key={product.id} 
-                product={product} 
-                onView={setSelectedProduct} 
-              />
-            ))}
-          </div>
+          {filteredProducts.length > 0 ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-6 md:gap-x-10 gap-y-16 md:gap-y-20">
+              {filteredProducts.slice(0, 4).map((product) => (
+                <ProductCard 
+                  key={product.id} 
+                  product={product} 
+                  onView={setSelectedProduct} 
+                />
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-20 bg-white/50 rounded-[2rem] border border-dashed border-luxury-ice">
+              <ShoppingBag className="w-12 h-12 text-luxury-ice mx-auto mb-6" />
+              <h3 className="text-xl font-serif italic text-luxury-navy mb-2">The collection is currently private</h3>
+              <p className="text-sm text-slate-400 font-light">New arrivals are being curated. Please check back soon.</p>
+            </div>
+          )}
           
           <div className="mt-24 text-center">
             <Link to="/collections" className="luxury-button btn-gradient max-w-sm mx-auto">

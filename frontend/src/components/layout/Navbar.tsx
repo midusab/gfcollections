@@ -270,13 +270,13 @@ export default function Navbar() {
         )}
       </AnimatePresence>
 
-      <nav className={`fixed inset-x-0 top-0 z-[120] transition-all duration-700 ${navScrolled ? 'bg-white/90 backdrop-blur-2xl py-4 border-b border-luxury-beige/20 shadow-xl' : 'bg-transparent py-8 border-b border-transparent'}`}>
+      <nav className={`fixed inset-x-0 top-0 z-[120] transition-all duration-700 ${navScrolled ? 'bg-white/95 backdrop-blur-2xl py-4 border-b border-luxury-beige/20 shadow-xl' : 'bg-transparent py-8'}`}>
         <div className="max-w-7xl mx-auto px-6 md:px-8 flex items-center relative">
           {/* Left: Logo & Mobile Menu Button */}
-          <div className="flex-none flex items-center gap-4 lg:w-1/4">
+          <div className="flex-none flex items-center gap-6 lg:w-1/4">
             <button 
               onClick={() => setIsMenuOpen(true)} 
-              className={`p-3 rounded-full lg:hidden border transition-colors ${navScrolled ? 'bg-luxury-beige/20 border-luxury-beige/40 text-luxury-black' : 'bg-white/10 border-white/20 text-luxury-black'}`}
+              className={`p-2.5 rounded-full lg:hidden border transition-all ${navScrolled ? 'bg-luxury-beige/40 border-luxury-beige/60 text-luxury-black' : 'bg-luxury-black/5 border-luxury-black/10 text-luxury-black'}`}
             >
               <Menu className="w-5 h-5" />
             </button>
@@ -285,7 +285,7 @@ export default function Navbar() {
                 whileHover={{ scale: 1.05 }}
                 src={logo}
                 alt="GF" 
-                className={`h-10 md:h-12 w-auto transition-all ${navScrolled ? 'brightness-0' : 'brightness-0'}`} 
+                className="h-10 md:h-12 w-auto transition-all brightness-0" 
                 referrerPolicy="no-referrer" 
               />
             </Link>
@@ -293,13 +293,13 @@ export default function Navbar() {
 
           {/* Center: Desktop Links */}
           <div className="hidden lg:flex flex-1 justify-center">
-            <div className="flex gap-8 xl:gap-12 items-center whitespace-nowrap">
+            <div className="flex gap-10 xl:gap-14 items-center whitespace-nowrap">
               {navigationLinks.map((link) => (
                 <div key={link.name} className="relative group/nav flex items-center h-full">
                   <Link 
                     to={link.href} 
                     state={{ category: link.category }} 
-                    className={`text-[11px] tracking-[0.2em] font-bold transition-all duration-300 relative py-2 uppercase ${link.name === 'Sale' ? 'text-luxury-pink' : 'text-luxury-black/60 hover:text-luxury-black'}`}
+                    className={`text-[11px] tracking-[0.25em] font-bold transition-all duration-300 relative py-2 uppercase ${link.name === 'Sale' ? 'text-luxury-pink' : 'text-luxury-black/50 hover:text-luxury-black'}`}
                   >
                     {link.name}
                     <span className="absolute -bottom-1 left-0 w-0 h-[1.5px] bg-luxury-blue transition-all duration-500 group-hover/nav:w-full" />
@@ -307,7 +307,7 @@ export default function Navbar() {
                   
                   {link.dropdown && (
                     <div className="absolute top-full left-1/2 -translate-x-1/2 pt-8 opacity-0 invisible group-hover/nav:opacity-100 group-hover/nav:visible transition-all duration-500 transform translate-y-4 group-hover/nav:translate-y-0">
-                      <div className="glass-card !bg-white min-w-[280px] p-8 rounded-[2rem] border-luxury-beige/20 shadow-2xl">
+                      <div className="glass-card !bg-white min-w-[280px] p-8 rounded-[2rem] border-luxury-beige/30 shadow-[0_40px_80px_-20px_rgba(0,0,0,0.15)]">
                         <div className="space-y-6">
                            <p className="text-[9px] tracking-[0.4em] text-luxury-gold font-bold border-b border-luxury-beige/20 pb-4 mb-4 uppercase">The selection</p>
                            {link.dropdown.map(item => (
@@ -331,27 +331,28 @@ export default function Navbar() {
           </div>
 
           {/* Right: Icons */}
-          <div className="flex-none flex items-center justify-end gap-4 md:gap-8 lg:w-1/4">
-            <button 
-              onClick={() => setIsSearchOpen(true)}
-              className={`p-3 rounded-full transition-all ${navScrolled ? 'bg-luxury-beige/20 text-luxury-black hover:bg-luxury-beige/40' : 'bg-luxury-black/5 text-luxury-black hover:bg-luxury-black/10'}`}
-            >
-              <Search className="w-5 h-5" />
-            </button>
+          <div className="flex-none flex items-center justify-end gap-5 md:gap-8 lg:w-1/4">
+            {!user && (
+              <Link 
+                to="/auth" 
+                className="hidden sm:block text-[11px] uppercase tracking-[0.2em] font-bold text-luxury-black/60 hover:text-luxury-black transition-all border-b border-transparent hover:border-luxury-black/20 pb-0.5"
+              >
+                Sign In
+              </Link>
+            )}
 
             <div className="flex items-center gap-4">
-               {!user && (
-                 <Link 
-                   to="/auth" 
-                   className="hidden sm:block text-[10px] uppercase tracking-widest font-bold text-luxury-black/60 hover:text-luxury-black transition-colors"
-                 >
-                   Join
-                 </Link>
-               )}
+               <button 
+                onClick={() => setIsSearchOpen(true)}
+                className={`p-3 rounded-full transition-all ${navScrolled ? 'bg-luxury-beige/40 text-luxury-black hover:bg-luxury-beige/60' : 'bg-luxury-black/5 text-luxury-black hover:bg-luxury-black/10'}`}
+               >
+                <Search className="w-5 h-5" />
+               </button>
+
                <div className="relative group cursor-pointer">
                  <Link 
                   to={user ? "/account" : "/auth"} 
-                  className={`p-3 rounded-full transition-all ${navScrolled ? 'bg-luxury-beige/20 text-luxury-black hover:bg-luxury-beige/40' : 'bg-luxury-black/5 text-luxury-black hover:bg-luxury-black/10'}`}
+                  className={`p-3 rounded-full transition-all ${navScrolled ? 'bg-luxury-beige/40 text-luxury-black hover:bg-luxury-beige/60' : 'bg-luxury-black/5 text-luxury-black hover:bg-luxury-black/10'}`}
                  >
                     <User className="w-5 h-5" />
                  </Link>
@@ -360,7 +361,7 @@ export default function Navbar() {
                <div className="relative group cursor-pointer">
                  <Link 
                   to="/collections" 
-                  className={`p-3 rounded-full transition-all relative ${navScrolled ? 'bg-luxury-black text-white shadow-lg shadow-luxury-black/20' : 'bg-luxury-black text-white shadow-lg shadow-luxury-black/20'}`}
+                  className="p-3 rounded-full bg-luxury-black text-white shadow-lg shadow-luxury-black/20 hover:scale-105 transition-all relative"
                  >
                     <ShoppingBag className="w-5 h-5" />
                     <span className="absolute -top-1 -right-1 bg-luxury-red text-white text-[8px] w-4.5 h-4.5 flex items-center justify-center rounded-full font-bold">3</span>
