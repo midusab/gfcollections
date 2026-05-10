@@ -104,7 +104,7 @@ export default function Navbar() {
                 <span className="text-[11px] tracking-[0.3em] font-semibold text-luxury-gold uppercase">Explore the house</span>
                 <button 
                   onClick={() => setIsSearchOpen(false)}
-                  className="p-2 hover:bg-luxury-beige rounded-full transition-colors"
+                  className="p-2 hover:bg-luxury-beige rounded-none transition-colors"
                 >
                   <X className="w-6 h-6" />
                 </button>
@@ -155,7 +155,7 @@ export default function Navbar() {
                         <button 
                           key={tag}
                           onClick={() => setSearchQuery(tag)}
-                          className="px-6 py-3 bg-luxury-beige/30 hover:bg-luxury-beige text-[10px] uppercase tracking-widest font-bold transition-all rounded-full"
+                          className="px-6 py-3 bg-luxury-beige/30 hover:bg-luxury-beige text-[10px] uppercase tracking-widest font-bold transition-all rounded-none"
                         >
                           {tag}
                         </button>
@@ -307,7 +307,7 @@ export default function Navbar() {
                   
                   {link.dropdown && (
                     <div className="absolute top-full left-1/2 -translate-x-1/2 pt-8 opacity-0 invisible group-hover/nav:opacity-100 group-hover/nav:visible transition-all duration-500 transform translate-y-4 group-hover/nav:translate-y-0">
-                      <div className="glass-card !bg-white min-w-[280px] p-8 rounded-[2rem] border-luxury-beige/30 shadow-[0_40px_80px_-20px_rgba(0,0,0,0.15)]">
+                      <div className="glass-card !bg-white min-w-[280px] p-8 rounded-none border-luxury-beige/30 shadow-[0_40px_80px_-20px_rgba(0,0,0,0.15)]">
                         <div className="space-y-6">
                            <p className="text-[9px] tracking-[0.4em] text-luxury-gold font-bold border-b border-luxury-beige/20 pb-4 mb-4 uppercase">The selection</p>
                            {link.dropdown.map(item => (
@@ -341,7 +341,7 @@ export default function Navbar() {
               </Link>
             )}
 
-            <div className="flex items-center bg-luxury-black/5 rounded-full p-1.5 border border-luxury-black/5">
+            <div className="flex items-center bg-luxury-black/5 rounded-none p-1.5 border border-luxury-black/5">
                <button 
                 onClick={() => setIsSearchOpen(true)}
                 className="p-2.5 text-luxury-black hover:text-luxury-blue transition-all"
@@ -365,7 +365,7 @@ export default function Navbar() {
                 className="p-2.5 text-luxury-black hover:text-luxury-blue transition-all relative"
                >
                   <ShoppingBag className="w-5 h-5" />
-                  <span className="absolute top-1.5 right-1.5 bg-luxury-blue text-white text-[7px] w-4 h-4 flex items-center justify-center rounded-full font-bold">3</span>
+                  <span className="absolute top-1.5 right-1.5 bg-luxury-blue text-white text-[7px] w-4 h-4 flex items-center justify-center rounded-none font-bold">3</span>
                </Link>
             </div>
           </div>
@@ -373,7 +373,7 @@ export default function Navbar() {
       </nav>
 
       {/* Mobile Bottom Navigation */}
-      <div className="lg:hidden fixed bottom-8 inset-x-8 glass-card !bg-luxury-navy/95 border-white/5 z-[120] px-10 py-6 flex items-center justify-between shadow-[0_32px_64px_-10px_rgba(0,0,0,0.5)] rounded-[2.5rem]">
+      <div className="lg:hidden fixed bottom-8 inset-x-8 glass-card !bg-luxury-navy/95 border-white/5 z-[120] px-10 py-6 flex items-center justify-between shadow-[0_32px_64px_-10px_rgba(0,0,0,0.5)] rounded-none">
         <Link to="/" className={`flex flex-col items-center gap-2 ${location.pathname === '/' ? 'text-luxury-blue' : 'text-white/30 hover:text-white'}`}>
           <Home className="w-5 h-5 transition-colors" />
           <span className="text-[8px] tracking-[0.2em] font-medium uppercase">Home</span>
@@ -389,7 +389,7 @@ export default function Navbar() {
           onClick={() => setIsSearchOpen(true)}
           className="relative flex flex-col items-center group"
         >
-          <div className="w-14 h-14 -mt-12 bg-luxury-blue rounded-full flex items-center justify-center shadow-2xl shadow-luxury-blue/40 border-4 border-luxury-navy transform transition-transform group-active:scale-90">
+          <div className="w-14 h-14 -mt-12 bg-luxury-blue rounded-none flex items-center justify-center shadow-2xl shadow-luxury-blue/40 border-4 border-luxury-navy transform transition-transform group-active:scale-90">
             <Search className="w-6 h-6 text-white" />
           </div>
           <span className="text-[8px] tracking-[0.2em] font-medium uppercase mt-2 text-white/40">Search</span>
@@ -397,7 +397,7 @@ export default function Navbar() {
         <Link to="/collections" className={`flex flex-col items-center gap-2 ${location.pathname === '/collections' ? 'text-luxury-blue' : 'text-white/30 hover:text-white'}`}>
           <div className="relative">
             <ShoppingBag className="w-5 h-5 transition-colors" />
-            <span className="absolute -top-1 -right-1 bg-luxury-red text-white text-[7px] w-4 h-4 flex items-center justify-center rounded-full font-bold">3</span>
+            <span className="absolute -top-1 -right-1 bg-luxury-red text-white text-[7px] w-4 h-4 flex items-center justify-center rounded-none font-bold">3</span>
           </div>
           <span className="text-[8px] tracking-[0.2em] font-medium uppercase">Cart</span>
         </Link>
