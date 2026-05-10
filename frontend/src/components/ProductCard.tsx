@@ -18,12 +18,12 @@ export default function ProductCard({ product, onView }: ProductCardProps) {
       className="group cursor-pointer flex flex-col h-full bg-transparent transition-all duration-700"
     >
       <div 
-        className="aspect-[3/4] bg-luxury-ice/20 mb-6 md:mb-10 overflow-hidden relative rounded-[1.5rem] md:rounded-[2rem] group-hover:shadow-[0_60px_100px_-20px_rgba(10,25,49,0.3)] transition-all duration-1000"
+        className="aspect-[3/4] bg-luxury-ice/20 mb-6 md:mb-10 overflow-hidden relative rounded-none group-hover:shadow-[0_60px_100px_-20px_rgba(10,25,49,0.3)] transition-all duration-1000"
         onClick={() => onView(product)}
       >
         {/* Promotion Tag */}
         {product.tag && (
-          <span className={`absolute top-4 left-4 md:top-6 md:left-6 z-20 ${product.tag.toLowerCase() === 'sale' ? 'bg-luxury-red' : 'bg-luxury-gold'} text-white text-[8px] md:text-[9px] px-4 md:px-6 py-2 md:py-2.5 uppercase tracking-[0.2em] font-bold rounded-full shadow-2xl backdrop-blur-md border border-white/20`}>
+          <span className={`absolute top-4 left-4 md:top-6 md:left-6 z-20 ${product.tag.toLowerCase() === 'sale' ? 'bg-luxury-red' : 'bg-luxury-gold'} text-white text-[8px] md:text-[9px] px-4 md:px-6 py-2 md:py-2.5 uppercase tracking-[0.2em] font-bold rounded-none shadow-2xl backdrop-blur-md border border-white/20`}>
             {product.tag}
           </span>
         )}
@@ -44,7 +44,7 @@ export default function ProductCard({ product, onView }: ProductCardProps) {
 
         {/* Floating Icons */}
         <div className="absolute top-4 right-4 md:top-6 md:right-6 z-20 flex flex-col gap-4 transform translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-700 delay-100">
-           <button className="w-10 h-10 md:w-12 md:h-12 glass-card !bg-white/10 text-white rounded-full flex items-center justify-center hover:!bg-luxury-red hover:text-white transition-all scale-90 group-hover:scale-100">
+           <button className="w-10 h-10 md:w-12 md:h-12 glass-card !bg-white/10 text-white rounded-none flex items-center justify-center hover:!bg-luxury-red hover:text-white transition-all scale-90 group-hover:scale-100">
               <Heart className="w-4 h-4 md:w-5 md:h-5 transition-colors" />
            </button>
         </div>
@@ -56,7 +56,7 @@ export default function ProductCard({ product, onView }: ProductCardProps) {
               e.stopPropagation();
               onView(product);
             }}
-            className="w-full bg-white text-luxury-navy py-4 md:py-5 text-[10px] md:text-[11px] uppercase tracking-[0.3em] font-bold hover:bg-luxury-blue hover:text-white transition-all shadow-2xl rounded-xl md:rounded-2xl"
+            className="w-full bg-white text-luxury-navy py-4 md:py-5 text-[10px] md:text-[11px] uppercase tracking-[0.3em] font-bold hover:bg-luxury-blue hover:text-white transition-all shadow-2xl rounded-none"
           >
             Explore Edit
           </button>

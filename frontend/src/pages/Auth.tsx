@@ -72,7 +72,7 @@ export default function Auth() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="inline-flex items-center gap-2 px-4 py-2 bg-luxury-blue/10 rounded-full mb-6"
+            className="inline-flex items-center gap-2 px-4 py-2 bg-luxury-blue/10 rounded-none mb-6"
           >
             <Sparkles className="w-4 h-4 text-luxury-blue" />
             <span className="text-[10px] uppercase tracking-[0.2em] font-bold text-luxury-blue">
@@ -104,7 +104,7 @@ export default function Auth() {
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.3 }}
-          className="glass-card !bg-white p-8 md:p-10 rounded-[2.5rem] shadow-2xl shadow-luxury-blue/5 border-luxury-beige/20"
+          className="glass-card !bg-white p-8 md:p-10 rounded-none shadow-2xl shadow-luxury-blue/5 border-luxury-beige/20"
         >
           <form onSubmit={handleSubmit} className="space-y-6">
             <AnimatePresence mode="wait">
@@ -127,7 +127,7 @@ export default function Auth() {
                           placeholder="Jane Doe"
                           value={fullName}
                           onChange={(e) => setFullName(e.target.value)}
-                          className="w-full pl-12 pr-6 py-4 bg-luxury-beige/20 rounded-2xl border-transparent focus:border-luxury-blue focus:bg-white focus:ring-0 transition-all placeholder:text-slate-300 text-luxury-black"
+                          className="w-full pl-12 pr-6 py-4 bg-luxury-beige/20 rounded-none border-transparent focus:border-luxury-blue focus:bg-white focus:ring-0 transition-all placeholder:text-slate-300 text-luxury-black"
                         />
                       </div>
                     </div>
@@ -141,7 +141,7 @@ export default function Auth() {
                           placeholder="+254..."
                           value={phone}
                           onChange={(e) => setPhone(e.target.value)}
-                          className="w-full pl-12 pr-6 py-4 bg-luxury-beige/20 rounded-2xl border-transparent focus:border-luxury-blue focus:bg-white focus:ring-0 transition-all placeholder:text-slate-300 text-luxury-black"
+                          className="w-full pl-12 pr-6 py-4 bg-luxury-beige/20 rounded-none border-transparent focus:border-luxury-blue focus:bg-white focus:ring-0 transition-all placeholder:text-slate-300 text-luxury-black"
                         />
                       </div>
                     </div>
@@ -157,7 +157,7 @@ export default function Auth() {
                         placeholder="Nairobi, Kakamega..."
                         value={locationStr}
                         onChange={(e) => setLocationStr(e.target.value)}
-                        className="w-full pl-12 pr-6 py-4 bg-luxury-beige/20 rounded-2xl border-transparent focus:border-luxury-blue focus:bg-white focus:ring-0 transition-all placeholder:text-slate-300 text-luxury-black"
+                        className="w-full pl-12 pr-6 py-4 bg-luxury-beige/20 rounded-none border-transparent focus:border-luxury-blue focus:bg-white focus:ring-0 transition-all placeholder:text-slate-300 text-luxury-black"
                       />
                     </div>
                   </div>
@@ -175,7 +175,7 @@ export default function Auth() {
                   placeholder="name@example.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full pl-12 pr-6 py-4 bg-luxury-beige/20 rounded-2xl border-transparent focus:border-luxury-blue focus:bg-white focus:ring-0 transition-all placeholder:text-slate-300 text-luxury-black"
+                  className="w-full pl-12 pr-6 py-4 bg-luxury-beige/20 rounded-none border-transparent focus:border-luxury-blue focus:bg-white focus:ring-0 transition-all placeholder:text-slate-300 text-luxury-black"
                 />
               </div>
             </div>
@@ -190,7 +190,7 @@ export default function Auth() {
                   placeholder="••••••••"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full pl-12 pr-12 py-4 bg-luxury-beige/20 rounded-2xl border-transparent focus:border-luxury-blue focus:bg-white focus:ring-0 transition-all placeholder:text-slate-300 text-luxury-black"
+                  className="w-full pl-12 pr-12 py-4 bg-luxury-beige/20 rounded-none border-transparent focus:border-luxury-blue focus:bg-white focus:ring-0 transition-all placeholder:text-slate-300 text-luxury-black"
                 />
                 <button
                   type="button"
@@ -207,7 +207,7 @@ export default function Auth() {
               <motion.p 
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                className={`text-xs text-center font-medium ${error.includes('Success') ? 'text-green-500' : 'text-red-500'}`}
+                className={`text-xs text-center font-medium ${error.includes('Success') || error.includes('Account created') ? 'text-green-500' : 'text-red-500'}`}
               >
                 {error}
               </motion.p>
@@ -216,7 +216,7 @@ export default function Auth() {
             <button
               disabled={loading}
               type="submit"
-              className="w-full bg-luxury-blue hover:bg-luxury-navy text-white py-4 rounded-2xl font-bold tracking-widest text-[11px] uppercase transition-all flex items-center justify-center gap-3 shadow-xl shadow-luxury-blue/20 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full bg-luxury-blue hover:bg-luxury-navy text-white py-4 rounded-none font-bold tracking-widest text-[11px] uppercase transition-all flex items-center justify-center gap-3 shadow-xl shadow-luxury-blue/20 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {loading ? (
                 <Loader2 className="w-5 h-5 animate-spin" />

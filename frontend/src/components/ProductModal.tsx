@@ -29,12 +29,12 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.9, y: 40 }}
           transition={{ type: "spring", damping: 25, stiffness: 300 }}
-          className="bg-white w-full max-w-6xl h-full md:h-auto md:max-h-[90vh] overflow-hidden relative z-10 grid grid-cols-1 md:grid-cols-2 shadow-[0_100px_80px_-20px_rgba(0,0,0,0.4)] md:rounded-[2.5rem] border border-white/20"
+          className="bg-white w-full max-w-6xl h-full md:h-auto md:max-h-[90vh] overflow-hidden relative z-10 grid grid-cols-1 md:grid-cols-2 shadow-[0_100px_80px_-20px_rgba(0,0,0,0.4)] md:rounded-none border border-white/20"
         >
           {/* Close Button */}
           <button 
             onClick={onClose}
-            className="absolute top-4 right-4 md:top-8 md:right-8 z-20 w-10 h-10 md:w-12 md:h-12 bg-white/10 backdrop-blur-md rounded-full flex items-center justify-center text-white hover:bg-white hover:text-luxury-navy transition-all duration-300"
+            className="absolute top-4 right-4 md:top-8 md:right-8 z-20 w-10 h-10 md:w-12 md:h-12 bg-white/10 backdrop-blur-md rounded-none flex items-center justify-center text-white hover:bg-white hover:text-luxury-navy transition-all duration-300"
           >
             <X className="w-5 h-5 md:w-6 md:h-6" />
           </button>
@@ -50,9 +50,9 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
             />
             
             <div className="absolute bottom-8 left-8 flex gap-4">
-               <div className="glass-card !bg-white/20 p-2 rounded-xl flex gap-2">
-                  <div className="w-12 h-16 bg-white/20 rounded-lg" />
-                  <div className="w-12 h-16 bg-white/20 rounded-lg" />
+               <div className="glass-card !bg-white/20 p-2 rounded-none flex gap-2">
+                  <div className="w-12 h-16 bg-white/20 rounded-none" />
+                  <div className="w-12 h-16 bg-white/20 rounded-none" />
                </div>
             </div>
           </div>
@@ -73,8 +73,8 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
               <div className="flex items-center justify-between">
                 <p className="text-xl md:text-2xl font-bold text-luxury-navy/80 tracking-widest">{product.price}</p>
                 {product.isLimited && (
-                  <div className="flex items-center gap-2 px-3 py-1 bg-luxury-red/5 rounded-full border border-luxury-red/10">
-                     <div className="w-1.5 h-1.5 bg-luxury-red rounded-full animate-pulse" />
+                  <div className="flex items-center gap-2 px-3 py-1 bg-luxury-red/5 rounded-none border border-luxury-red/10">
+                     <div className="w-1.5 h-1.5 bg-luxury-red rounded-none animate-pulse" />
                      <span className="text-[9px] font-bold text-luxury-red tracking-[0.1em] uppercase">Limited Stock</span>
                   </div>
                 )}
@@ -101,7 +101,7 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
                     <button 
                       key={size}
                       onClick={() => setSelectedSize(size)}
-                      className={`w-12 h-12 md:w-14 md:h-14 rounded-xl md:rounded-2xl flex items-center justify-center text-[12px] font-bold transition-all border ${selectedSize === size ? 'bg-luxury-navy border-luxury-navy text-white shadow-xl scale-105' : 'bg-luxury-ice/20 border-transparent text-luxury-navy hover:border-luxury-gold'}`}
+                      className={`w-12 h-12 md:w-14 md:h-14 rounded-none flex items-center justify-center text-[12px] font-bold transition-all border ${selectedSize === size ? 'bg-luxury-navy border-luxury-navy text-white shadow-xl scale-105' : 'bg-luxury-ice/20 border-transparent text-luxury-navy hover:border-luxury-gold'}`}
                     >
                       {size}
                     </button>
@@ -119,7 +119,7 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
                   <ShoppingBag className="w-4 h-4" />
                   {selectedSize ? `Reserve - ${selectedSize}` : 'Select Size'}
                 </button>
-                <button className="w-14 h-14 flex items-center justify-center border border-luxury-beige rounded-2xl hover:bg-luxury-red hover:text-white transition-all group">
+                <button className="w-14 h-14 flex items-center justify-center border border-luxury-beige rounded-none hover:bg-luxury-red hover:text-white transition-all group">
                   <Heart className="w-5 h-5 text-luxury-navy group-hover:text-white transition-colors" />
                 </button>
               </div>

@@ -75,7 +75,7 @@ export default function Home() {
               Experience the perfect blend of contemporary design and timeless luxury crafted for your most significant moments.
             </p>
             <div className="flex items-center gap-8">
-              <Link to="/collections" className="bg-luxury-black text-white px-10 py-4 rounded-full text-[11px] uppercase tracking-widest font-bold hover:bg-luxury-gold transition-all shadow-xl shadow-luxury-black/10">
+              <Link to="/collections" className="bg-luxury-black text-white px-10 py-4 rounded-none text-[11px] uppercase tracking-widest font-bold hover:bg-luxury-gold transition-all shadow-xl shadow-luxury-black/10">
                 Explore Collection
               </Link>
             </div>
@@ -88,7 +88,7 @@ export default function Home() {
             transition={{ duration: 1.5, ease: "easeOut" }}
             className="relative hidden lg:block"
           >
-            <div className="relative aspect-[4/5] rounded-[2rem] overflow-hidden shadow-[0_40px_80px_-15px_rgba(0,0,0,0.2)]">
+            <div className="relative aspect-[4/5] rounded-none overflow-hidden shadow-[0_40px_80px_-15px_rgba(0,0,0,0.2)]">
               <img 
                 src="https://images.unsplash.com/photo-1539109132332-6299166a607e?q=80&w=1200" 
                 alt="High Fashion"
@@ -100,9 +100,9 @@ export default function Home() {
             <motion.div 
               animate={{ y: [0, -15, 0] }}
               transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-              className="absolute -bottom-10 -left-10 bg-white p-6 rounded-3xl shadow-2xl border border-luxury-beige/20 flex items-center gap-4 max-w-[240px]"
+              className="absolute -bottom-10 -left-10 bg-white p-6 rounded-none shadow-2xl border border-luxury-beige/20 flex items-center gap-4 max-w-[240px]"
             >
-              <div className="w-12 h-12 bg-luxury-gold/10 rounded-full flex items-center justify-center text-luxury-gold">
+              <div className="w-12 h-12 bg-luxury-gold/10 rounded-none flex items-center justify-center text-luxury-gold">
                 <Gem className="w-6 h-6" />
               </div>
               <div>
