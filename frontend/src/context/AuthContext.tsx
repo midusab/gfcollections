@@ -9,6 +9,7 @@ interface Profile {
   location: string | null;
   delivery_address: string | null;
   email: string | null;
+  avatar_url: string | null;
 }
 
 interface AuthContextType {
