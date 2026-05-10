@@ -544,22 +544,102 @@ function ProductModal({ onClose, onSave }: { onClose: () => void, onSave: () => 
 }
 
 function OrdersSection() {
+  const [orders, setOrders] = useState<Order[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchOrders();
+  }, []);
+
+  const fetchOrders = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('orders')
+        .select('*, profiles(full_name, email)')
+        .order('created_at', { ascending: false });
+
+      if (error) throw error;
+      setOrders(data || []);
+    } catch (err) {
+      console.error('Error fetching orders:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const updateOrderStatus = async (orderId: string, newStatus: Order['status']) => {
+    try {
+      const { error } = await supabase
+        .from('orders')
+        .update({ status: newStatus })
+        .eq('id', orderId);
+      
+      if (error) throw error;
+      fetchOrders();
+    } catch (err) {
+      console.error('Error updating order:', err);
+    }
+  };
+
   return (
     <motion.div 
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="bg-white border border-luxury-beige shadow-sm"
+      className="space-y-6"
     >
-      <div className="p-8 border-b border-luxury-beige flex justify-between items-center">
-        <h3 className="text-xl font-serif">Recent Orders</h3>
-        <div className="flex gap-2">
-          <button className="px-4 py-2 border border-luxury-beige text-[10px] uppercase tracking-widest font-bold hover:bg-[#F8F7F3] transition-all">Received</button>
-          <button className="px-4 py-2 border border-luxury-beige text-[10px] uppercase tracking-widest font-bold hover:bg-[#F8F7F3] transition-all">Shipped</button>
+      <div className="bg-white border border-luxury-beige shadow-sm overflow-hidden">
+        <div className="p-8 border-b border-luxury-beige flex justify-between items-center bg-[#F8F7F3]">
+          <h3 className="text-xl font-serif">Order Management</h3>
+          <div className="flex gap-3">
+            <span className="text-[10px] uppercase tracking-widest font-bold text-slate-400">Total: {orders.length}</span>
+          </div>
         </div>
-      </div>
-      <div className="p-20 text-center text-slate-300 italic text-sm">
-        <ShoppingBag className="w-12 h-12 mx-auto mb-4 opacity-20" />
-        Order processing module coming soon...
+        
+        <table className="w-full text-left">
+          <thead className="bg-white border-b border-luxury-beige">
+            <tr>
+              <th className="px-6 py-4 text-[10px] uppercase tracking-widest font-bold text-slate-400">Order ID</th>
+              <th className="px-6 py-4 text-[10px] uppercase tracking-widest font-bold text-slate-400">Customer</th>
+              <th className="px-6 py-4 text-[10px] uppercase tracking-widest font-bold text-slate-400">Total</th>
+              <th className="px-6 py-4 text-[10px] uppercase tracking-widest font-bold text-slate-400">Status</th>
+              <th className="px-6 py-4 text-[10px] uppercase tracking-widest font-bold text-slate-400 text-right">Actions</th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-luxury-beige">
+            {loading ? (
+              <tr><td colSpan={5} className="p-20 text-center"><Loader2 className="w-8 h-8 animate-spin mx-auto text-slate-200" /></td></tr>
+            ) : orders.map(order => (
+              <tr key={order.id} className="hover:bg-[#F8F7F3] transition-colors">
+                <td className="px-6 py-4">
+                  <p className="text-sm font-bold text-luxury-black">#{order.order_number}</p>
+                  <p className="text-[10px] text-slate-400">{new Date(order.created_at).toLocaleDateString()}</p>
+                </td>
+                <td className="px-6 py-4">
+                  <p className="text-sm font-medium">{order.profiles?.full_name || 'Guest'}</p>
+                  <p className="text-[10px] text-slate-400">{order.profiles?.email}</p>
+                </td>
+                <td className="px-6 py-4 font-bold text-sm">Ksh {order.total_amount.toLocaleString()}</td>
+                <td className="px-6 py-4">
+                  <select 
+                    value={order.status}
+                    onChange={(e) => updateOrderStatus(order.id, e.target.value as any)}
+                    className="text-[9px] font-bold uppercase tracking-widest bg-luxury-gold/5 border border-luxury-gold/20 px-3 py-1.5 focus:outline-none"
+                  >
+                    <option value="received">Received</option>
+                    <option value="payment_confirmed">Paid</option>
+                    <option value="packed">Packed</option>
+                    <option value="delivered">Delivered</option>
+                  </select>
+                </td>
+                <td className="px-6 py-4 text-right">
+                  <button className="p-2 text-slate-400 hover:text-luxury-blue transition-all">
+                    <ExternalLink className="w-4 h-4" />
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     </motion.div>
   );

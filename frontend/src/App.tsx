@@ -22,6 +22,7 @@ import { CartProvider } from './context/CartContext';
 import Auth from './pages/Auth';
 import Account from './pages/Account';
 import Admin from './pages/Admin';
+import Checkout from './pages/Checkout';
 
 // Scroll to top on route change
 function ScrollToTop() {
@@ -52,6 +53,7 @@ export default function App() {
               <Route path="/auth" element={<Auth />} />
               <Route path="/account" element={<Account />} />
               <Route path="/gf-collection-gate" element={<Admin />} />
+              <Route path="/checkout" element={<Checkout />} />
             </Routes>
           </main>
 

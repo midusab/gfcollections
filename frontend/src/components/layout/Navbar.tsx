@@ -363,7 +363,7 @@ export default function Navbar() {
                <div className="w-[1px] h-4 bg-luxury-black/10 mx-1" />
 
                <Link 
-                to="/collections" 
+                to="/checkout" 
                 className="p-2.5 text-luxury-black hover:text-luxury-blue transition-all relative"
                >
                   <ShoppingBag className="w-5 h-5" />
@@ -400,7 +400,7 @@ export default function Navbar() {
           </div>
           <span className="text-[8px] tracking-[0.2em] font-medium uppercase mt-2 text-white/40">Search</span>
         </button>
-        <Link to="/collections" className={`flex flex-col items-center gap-2 ${location.pathname === '/collections' ? 'text-luxury-blue' : 'text-white/30 hover:text-white'}`}>
+        <Link to="/checkout" className={`flex flex-col items-center gap-2 ${location.pathname === '/checkout' ? 'text-luxury-blue' : 'text-white/30 hover:text-white'}`}>
           <div className="relative">
             <ShoppingBag className="w-5 h-5 transition-colors" />
             {cartCount > 0 && (
