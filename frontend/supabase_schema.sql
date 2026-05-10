@@ -43,6 +43,9 @@ CREATE TABLE IF NOT EXISTS profiles (
   created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
 );
 
+-- Ensure 'role' column exists if table was already created
+ALTER TABLE profiles ADD COLUMN IF NOT EXISTS role TEXT DEFAULT 'customer' CHECK (role IN ('customer', 'admin'));
+
 -- 5. Cart Items
 CREATE TABLE IF NOT EXISTS cart_items (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,

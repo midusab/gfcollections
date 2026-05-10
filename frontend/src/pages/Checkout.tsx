@@ -13,6 +13,7 @@ import {
   Loader2,
   ShieldCheck
 } from 'lucide-react';
+import toast from 'react-hot-toast';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate, Link } from 'react-router-dom';
@@ -98,9 +99,10 @@ export default function Checkout() {
 
       clearCart();
       setStep(3); // Success step
-    } catch (err) {
+      toast.success('Order placed successfully!');
+    } catch (err: any) {
       console.error('Order error:', err);
-      alert('Failed to place order. Please try again.');
+      toast.error(err.message || 'Failed to place order. Please try again.');
     } finally {
       setLoading(false);
     }

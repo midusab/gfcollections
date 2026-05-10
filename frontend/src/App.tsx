@@ -23,6 +23,7 @@ import Auth from './pages/Auth';
 import Account from './pages/Account';
 import Admin from './pages/Admin';
 import Checkout from './pages/Checkout';
+import { Toaster } from 'react-hot-toast';
 
 // Scroll to top on route change
 function ScrollToTop() {
@@ -38,30 +39,62 @@ export default function App() {
     <AuthProvider>
       <CartProvider>
         <Router>
-        <ScrollToTop />
-        <div className="min-h-screen selection:bg-luxury-blue selection:text-white bg-luxury-white">
-          <Navbar />
+          <AppContent />
+        </Router>
+      </CartProvider>
+    </AuthProvider>
+  );
+}
 
-          <main>
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/collections" element={<Collections />} />
-              <Route path="/new-arrivals" element={<NewArrivals />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/contact" element={<Contact />} />
-              <Route path="/faq" element={<FAQ />} />
-              <Route path="/auth" element={<Auth />} />
-              <Route path="/account" element={<Account />} />
-              <Route path="/gf-collection-gate" element={<Admin />} />
-              <Route path="/checkout" element={<Checkout />} />
-            </Routes>
-          </main>
+function AppContent() {
+  const { pathname } = useLocation();
+  const isAdminPage = pathname === '/gf-collection-gate';
 
-          <Footer />
-          <WhatsAppButton />
-        </div>
-      </Router>
-    </CartProvider>
-  </AuthProvider>
+  return (
+    <>
+      <ScrollToTop />
+      <div className="min-h-screen selection:bg-luxury-blue selection:text-white bg-luxury-white">
+        {!isAdminPage && <Navbar />}
+
+        <main>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/collections" element={<Collections />} />
+            <Route path="/new-arrivals" element={<NewArrivals />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/faq" element={<FAQ />} />
+            <Route path="/auth" element={<Auth />} />
+            <Route path="/account" element={<Account />} />
+            <Route path="/gf-collection-gate" element={<Admin />} />
+            <Route path="/checkout" element={<Checkout />} />
+          </Routes>
+        </main>
+
+        {!isAdminPage && <Footer />}
+        <WhatsAppButton />
+        <Toaster 
+          position="bottom-center"
+          toastOptions={{
+            style: {
+              background: '#0a0f18', // luxury navy
+              color: '#fff',
+              borderRadius: '0px',
+              border: '1px solid rgba(255, 255, 255, 0.1)',
+              fontSize: '11px',
+              textTransform: 'uppercase',
+              letterSpacing: '0.1em',
+              fontWeight: 'bold',
+            },
+            success: {
+              iconTheme: {
+                primary: '#D4AF37', // luxury gold
+                secondary: '#0a0f18',
+              },
+            },
+          }}
+        />
+      </div>
+    </>
   );
 }

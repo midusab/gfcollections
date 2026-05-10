@@ -29,62 +29,116 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [profile, setProfile] = useState<Profile | null>(null);
   const [loading, setLoading] = useState(true);
 
-  const fetchProfile = async (userId: string) => {
+  const fetchProfile = async (currentUser: User) => {
     try {
       const { data, error } = await supabase
         .from('profiles')
         .select('*')
-        .eq('id', userId)
+        .eq('id', currentUser.id)
         .single();
 
-      if (error) throw error;
+      if (error) {
+        if (error.code === 'PGRST116') {
+          // No profile row exists (RLS or missing trigger). Fallback to user metadata.
+          setProfile({
+            id: currentUser.id,
+            full_name: currentUser.user_metadata?.full_name || null,
+            phone: currentUser.user_metadata?.phone || null,
+            location: currentUser.user_metadata?.location || null,
+            delivery_address: null,
+            email: currentUser.email || null,
+            avatar_url: null,
+          });
+          return;
+        }
+        throw error;
+      }
       setProfile(data);
     } catch (error) {
       console.error('Error fetching profile:', error);
+      // Ensure we still have some profile data from the user object
+      setProfile({
+        id: currentUser.id,
+        full_name: currentUser.user_metadata?.full_name || null,
+        phone: currentUser.user_metadata?.phone || null,
+        location: currentUser.user_metadata?.location || null,
+        delivery_address: null,
+        email: currentUser.email || null,
+        avatar_url: null,
+      });
     }
   };
 
   useEffect(() => {
-    // Check active sessions and sets the user
-    const initAuth = async () => {
+    let mounted = true;
+
+    // 1. Initial Session Check
+    const initializeAuth = async () => {
       try {
+        // Use getUser() instead of getSession() to actively verify the user exists on the server,
+        // preventing "ghost sessions" if a user was deleted from the database but still has a local cookie.
+        const { data: { user }, error } = await supabase.auth.getUser();
+        
+        // We still need the session for the context
         const { data: { session } } = await supabase.auth.getSession();
-        setSession(session);
-        setUser(session?.user ?? null);
-        if (session?.user) {
-          await fetchProfile(session.user.id);
+        
+        if (error && error.status !== 400) throw error; // 400 means no session found, which is normal
+        
+        if (mounted) {
+          setSession(session);
+          setUser(user ?? null);
+          if (user) {
+            await fetchProfile(user);
+          }
         }
-      } catch (error) {
-        console.error('Auth initialization error:', error);
+      } catch (err) {
+        console.error('Session initialization error:', err);
       } finally {
-        setLoading(false);
+        if (mounted) setLoading(false);
       }
     };
 
-    initAuth();
+    initializeAuth();
 
-    // Listen for changes on auth state (sign in, sign out, etc.)
+    // 2. Real-time Listener
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
-      setSession(session);
-      setUser(session?.user ?? null);
-      if (session?.user) {
-        await fetchProfile(session.user.id);
-      } else {
-        setProfile(null);
+      if (mounted) {
+        setSession(session);
+        setUser(session?.user ?? null);
+        if (session?.user) {
+          await fetchProfile(session.user);
+        } else {
+          setProfile(null);
+        }
+        setLoading(false);
       }
-      setLoading(false);
     });
 
-    return () => subscription.unsubscribe();
+    return () => {
+      mounted = false;
+      subscription.unsubscribe();
+    };
   }, []);
 
   const signOut = async () => {
-    await supabase.auth.signOut();
+    try {
+      // Clear all potential state storage
+      localStorage.removeItem('gf_cart');
+      sessionStorage.clear();
+      
+      await supabase.auth.signOut();
+      
+      // Force a hard redirect to the home page to guarantee the session clears visually
+      window.location.href = '/';
+    } catch (error) {
+      console.error('Sign out failed:', error);
+      window.location.href = '/'; // Fallback redirect even on failure
+    }
   };
 
   const refreshProfile = async () => {
     if (user) {
-      await fetchProfile(user.id);
+      await fetchProfile(user);
     }
   };
 

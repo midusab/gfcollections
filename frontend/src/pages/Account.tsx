@@ -17,11 +17,11 @@ import {
   Camera,
   Loader2
 } from 'lucide-react';
+import toast from 'react-hot-toast';
 
 export default function Account() {
   const { user, profile, signOut, refreshProfile, loading: authLoading } = useAuth();
   const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState<{ type: 'success' | 'error', text: string } | null>(null);
   const navigate = useNavigate();
 
   // Form states
@@ -29,6 +29,27 @@ export default function Account() {
   const [phone, setPhone] = useState('');
   const [location, setLocation] = useState('');
   const [address, setAddress] = useState('');
+  const [orderStats, setOrderStats] = useState({ total: 0, active: 0, completed: 0 });
+
+  useEffect(() => {
+    if (user) {
+      const fetchStats = async () => {
+        const { data: orders } = await supabase
+          .from('orders')
+          .select('status')
+          .eq('user_id', user.id);
+        
+        if (orders) {
+          setOrderStats({
+            total: orders.length,
+            active: orders.filter(o => !['delivered', 'cancelled'].includes(o.status)).length,
+            completed: orders.filter(o => o.status === 'delivered').length
+          });
+        }
+      };
+      fetchStats();
+    }
+  }, [user]);
 
   useEffect(() => {
     if (!authLoading && !user) {
@@ -50,26 +71,24 @@ export default function Account() {
     if (!user) return;
 
     setLoading(true);
-    setMessage(null);
 
     try {
       const { error } = await supabase
         .from('profiles')
-        .update({
+        .upsert({
+          id: user.id, // Ensure ID is passed for upsert
           full_name: fullName,
           phone: phone,
           location: location,
           delivery_address: address,
           updated_at: new Date().toISOString(),
-        })
-        .eq('id', user.id);
+        });
 
       if (error) throw error;
-      
       await refreshProfile();
-      setMessage({ type: 'success', text: 'Profile updated successfully!' });
+      toast.success('Profile updated successfully!');
     } catch (err: any) {
-      setMessage({ type: 'error', text: err.message });
+      toast.error(err.message || 'Failed to update profile.');
     } finally {
       setLoading(false);
     }
@@ -80,7 +99,6 @@ export default function Account() {
   const handleAvatarUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     try {
       setUploading(true);
-      setMessage(null);
 
       if (!e.target.files || e.target.files.length === 0) {
         throw new Error('You must select an image to upload.');
@@ -88,13 +106,13 @@ export default function Account() {
 
       const file = e.target.files[0];
       const fileExt = file.name.split('.').pop();
-      const fileName = `${user?.id}-${Math.random()}.${fileExt}`;
+      const fileName = `${user?.id}-avatar.${fileExt}`;
       const filePath = `avatars/${fileName}`;
 
-      // 1. Upload to Supabase Storage
+      // 1. Upload to Supabase Storage (Upsert overwrites the old picture)
       const { error: uploadError } = await supabase.storage
         .from('avatars')
-        .upload(filePath, file);
+        .upload(filePath, file, { upsert: true });
 
       if (uploadError) throw uploadError;
 
@@ -103,18 +121,19 @@ export default function Account() {
         .from('avatars')
         .getPublicUrl(filePath);
 
-      // 3. Update Profile in DB
+      // 3. Update Profile in DB (using upsert to guarantee creation if missing)
       const { error: updateError } = await supabase
         .from('profiles')
-        .update({ avatar_url: publicUrl })
-        .eq('id', user?.id);
+        .upsert({ 
+          id: user?.id,
+          avatar_url: publicUrl 
+        });
 
       if (updateError) throw updateError;
-
       await refreshProfile();
-      setMessage({ type: 'success', text: 'Profile picture updated!' });
+      toast.success('Profile picture updated!');
     } catch (err: any) {
-      setMessage({ type: 'error', text: err.message });
+      toast.error(err.message || 'Failed to upload picture.');
     } finally {
       setUploading(false);
     }
@@ -122,15 +141,20 @@ export default function Account() {
 
   const handleSignOut = async () => {
     await signOut();
-    navigate('/');
   };
 
+  // Strict protection: display a luxury loader while verifying session
   if (authLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="w-8 h-8 border-4 border-luxury-blue border-t-transparent rounded-full animate-spin"></div>
+      <div className="min-h-screen bg-luxury-white flex items-center justify-center">
+        <Loader2 className="w-10 h-10 text-luxury-gold animate-spin" />
       </div>
     );
+  }
+
+  // If not loading and no user, we don't render anything (the useEffect handles the redirect)
+  if (!user) {
+    return null;
   }
 
   return (
@@ -169,7 +193,7 @@ export default function Account() {
                   <label htmlFor="avatar-upload" className="absolute inset-0 cursor-pointer" />
                 </div>
                 <div>
-                  <h2 className="font-serif italic text-xl text-luxury-black truncate w-32">{fullName || 'Valued Client'}</h2>
+                  <h2 className="font-serif italic text-xl text-luxury-black truncate w-32">{fullName}</h2>
                   <p className="text-[10px] uppercase tracking-widest text-slate-400 font-bold">Premium Member</p>
                 </div>
               </div>
@@ -218,9 +242,9 @@ export default function Account() {
             {/* Stats */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
               {[
-                { label: 'Total Orders', value: '12', icon: ShoppingBag, color: 'text-luxury-blue' },
-                { label: 'Active Orders', value: '2', icon: Clock, color: 'text-luxury-gold' },
-                { label: 'Completed', value: '10', icon: CheckCircle2, color: 'text-green-500' },
+                { label: 'Total Orders', value: orderStats.total.toString(), icon: ShoppingBag, color: 'text-luxury-blue' },
+                { label: 'Active Orders', value: orderStats.active.toString(), icon: Clock, color: 'text-luxury-gold' },
+                { label: 'Completed', value: orderStats.completed.toString(), icon: CheckCircle2, color: 'text-green-500' },
               ].map((stat) => (
                 <div key={stat.label} className="glass-card !bg-white p-6 rounded-none border-luxury-beige/20 shadow-sm flex items-center gap-4">
                   <div className={`p-3 bg-luxury-beige/20 rounded-none ${stat.color}`}>
@@ -233,7 +257,6 @@ export default function Account() {
                 </div>
               ))}
             </div>
-
             {/* Profile Form */}
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
@@ -298,11 +321,7 @@ export default function Account() {
                   </div>
                 </div>
 
-                {message && (
-                  <div className={`md:col-span-2 text-center p-4 rounded-none text-[11px] uppercase tracking-widest font-bold ${message.type === 'success' ? 'bg-green-50 text-green-600' : 'bg-red-50 text-red-600'}`}>
-                    {message.text}
-                  </div>
-                )}
+
 
                 <div className="md:col-span-2 pt-4">
                   <button

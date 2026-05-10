@@ -23,7 +23,8 @@ import {
   Upload,
   Image as ImageIcon,
   Save,
-  Loader2
+  Loader2,
+  LogOut
 } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { useAuth } from '../context/AuthContext';
@@ -58,7 +59,7 @@ interface Order {
 }
 
 export default function Admin() {
-  const { user, loading: authLoading } = useAuth();
+  const { user, signOut, loading: authLoading } = useAuth();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<'overview' | 'products' | 'orders' | 'customers'>('overview');
   const [isLoading, setIsLoading] = useState(true);
@@ -71,13 +72,9 @@ export default function Admin() {
     // Ideally check for admin role here
   }, [user, authLoading, navigate]);
 
-  if (authLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-luxury-white">
-        <div className="w-8 h-8 border-4 border-luxury-blue border-t-transparent rounded-full animate-spin"></div>
-      </div>
-    );
-  }
+  if (!user && !authLoading) return null;
+
+  if (authLoading || !user) return null;
 
   return (
     <div className="min-h-screen bg-[#F8F7F3] flex">
@@ -121,6 +118,13 @@ export default function Admin() {
           >
             <ExternalLink className="w-4 h-4" />
             View Website
+          </button>
+          <button 
+            onClick={async () => { await signOut(); navigate('/'); }}
+            className="flex items-center gap-3 text-red-400 hover:text-red-500 transition-all text-sm font-medium"
+          >
+            <LogOut className="w-4 h-4" />
+            Sign Out
           </button>
         </div>
       </aside>
