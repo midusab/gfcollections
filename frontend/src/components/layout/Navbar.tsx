@@ -223,10 +223,10 @@ export default function Navbar() {
                       to={link.href} 
                       state={{ category: link.category || (link.dropdown ? 'All' : undefined) }}
                       onClick={() => setIsMenuOpen(false)}
-                      className="py-6 text-2xl font-serif italic text-luxury-black hover:text-luxury-blue transition-colors flex items-center justify-between group"
+                      className={`py-6 text-2xl font-serif italic hover:text-luxury-blue transition-colors flex items-center justify-between group ${link.name === 'Sale' ? 'text-[#F40009]' : 'text-luxury-black'}`}
                     >
                       {link.name}
-                      <ChevronRight className="w-5 h-5 text-luxury-blue group-hover:translate-x-1 transition-transform" />
+                      <ChevronRight className={`w-5 h-5 group-hover:translate-x-1 transition-transform ${link.name === 'Sale' ? 'text-[#F40009]' : 'text-luxury-blue'}`} />
                     </Link>
                   </div>
                 ))}
@@ -299,7 +299,7 @@ export default function Navbar() {
                   <Link 
                     to={link.href} 
                     state={{ category: link.category }} 
-                    className={`text-[11px] tracking-[0.25em] font-bold transition-all duration-300 relative py-2 uppercase ${link.name === 'Sale' ? 'text-luxury-pink' : 'text-luxury-black/50 hover:text-luxury-black'}`}
+                    className={`text-[11px] tracking-[0.25em] font-bold transition-all duration-300 relative py-2 uppercase ${link.name === 'Sale' ? 'text-[#F40009]' : 'text-luxury-black/50 hover:text-luxury-black'}`}
                   >
                     {link.name}
                     <span className="absolute -bottom-1 left-0 w-0 h-[1.5px] bg-luxury-blue transition-all duration-500 group-hover/nav:w-full" />

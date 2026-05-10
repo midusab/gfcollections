@@ -70,7 +70,7 @@ export default function Auth() {
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
         <img 
-          src="https://pixabay.com/images/download/x-559307_1920.jpg" 
+          src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?w=1200&auto=format&fit=crop&q=80" 
           alt="Auth Background" 
           className="w-full h-full object-cover"
           referrerPolicy="no-referrer"
