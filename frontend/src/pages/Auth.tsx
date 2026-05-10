@@ -52,7 +52,7 @@ export default function Auth() {
         if (signInError) throw signInError;
         
         toast.success('Welcome back to the House.');
-        // We do NOT navigate here. We wait for AuthContext to pick up the session.
+        navigate('/account');
       } else {
         const { data, error: signUpError } = await supabase.auth.signUp({
           email,
@@ -70,18 +70,17 @@ export default function Auth() {
         
         if (data?.session) {
           toast.success('Your legacy begins. Welcome.');
-          // We do NOT navigate here. We wait for AuthContext to pick up the session.
+          navigate('/account');
         } else {
           setIsLogin(true);
           toast.success('Success! Please verify your email or sign in.');
-          setLoading(false); // Only stop loading if we are staying on this page
         }
       }
     } catch (err: any) {
       toast.error(err.message || 'An error occurred.');
-      setLoading(false); // Stop loading on error
+    } finally {
+      setLoading(false);
     }
-    // Removed finally { setLoading(false) } so the spinner stays active during the seamless redirect transition
   };
 
   return (
