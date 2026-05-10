@@ -48,68 +48,47 @@ export default function Home() {
   return (
     <div className="pt-0">
       {/* Hero Section */}
-      <section className="relative h-[90vh] flex items-center overflow-hidden bg-[#F8F7F3]">
-        {/* Decorative Background Elements */}
-        <div className="absolute top-0 right-0 w-1/2 h-full bg-[#EBE9E0] -skew-x-6 translate-x-20 z-0" />
+      <section className="relative h-screen flex items-center overflow-hidden">
+        {/* Background Image */}
+        <div className="absolute inset-0 z-0">
+          <img 
+            src="https://pixabay.com/images/download/x-559307_1920.jpg" 
+            alt="Hero Background" 
+            className="w-full h-full object-cover"
+            referrerPolicy="no-referrer"
+          />
+          <div className="absolute inset-0 bg-luxury-black/40 backdrop-blur-[2px]" />
+        </div>
         
-        <div className="max-w-7xl mx-auto px-6 md:px-8 w-full relative z-10 grid grid-cols-1 lg:grid-cols-2 items-center gap-12">
-          {/* Left Content */}
+        <div className="max-w-7xl mx-auto px-6 md:px-8 w-full relative z-10 flex flex-col items-center justify-center text-center">
           <motion.div 
-            initial={{ opacity: 0, x: -30 }}
-            animate={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, ease: "easeOut" }}
-            className="max-w-xl"
+            className="max-w-3xl"
           >
             <motion.span 
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.3 }}
-              className="text-luxury-gold uppercase tracking-[0.4em] text-[10px] font-bold mb-4 block"
+              className="text-luxury-gold uppercase tracking-[0.5em] text-[11px] font-bold mb-6 block"
             >
               New Collection 2026
             </motion.span>
-            <h1 className="text-5xl sm:text-7xl lg:text-[80px] font-serif text-luxury-black leading-[1.1] mb-8">
-              Refined <span className="italic">Elegance</span>
+            <h1 className="text-5xl sm:text-7xl lg:text-[100px] font-serif text-white leading-[1.1] mb-8">
+              <span className="italic">Refined</span> <span className="text-luxury-ice">Elegance</span>
             </h1>
-            <p className="text-luxury-black/60 text-lg md:text-xl font-light mb-10 leading-relaxed max-w-md">
+            <p className="text-white/80 text-lg md:text-2xl font-light mb-12 leading-relaxed max-w-2xl mx-auto">
               Experience the perfect blend of contemporary design and timeless luxury crafted for your most significant moments.
             </p>
-            <div className="flex items-center gap-8">
-              <Link to="/collections" className="bg-luxury-black text-white px-10 py-4 rounded-none text-[11px] uppercase tracking-widest font-bold hover:bg-luxury-gold transition-all shadow-xl shadow-luxury-black/10">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
+              <Link to="/collections" className="w-full sm:w-auto bg-white text-luxury-black px-12 py-5 rounded-none text-[12px] uppercase tracking-[0.3em] font-bold hover:bg-luxury-gold hover:text-white transition-all shadow-2xl">
                 Explore Collection
               </Link>
+              <Link to="/auth" className="w-full sm:w-auto border border-white/30 text-white px-12 py-5 rounded-none text-[12px] uppercase tracking-[0.3em] font-bold hover:bg-white hover:text-luxury-black transition-all">
+                Join the House
+              </Link>
             </div>
-          </motion.div>
-
-          {/* Right Image */}
-          <motion.div 
-            initial={{ opacity: 0, scale: 1.1 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1.5, ease: "easeOut" }}
-            className="relative hidden lg:block"
-          >
-            <div className="relative aspect-[4/5] rounded-none overflow-hidden shadow-[0_40px_80px_-15px_rgba(0,0,0,0.2)]">
-              <img 
-                src="https://images.unsplash.com/photo-1539109132332-6299166a607e?q=80&w=1200" 
-                alt="High Fashion"
-                className="w-full h-full object-cover"
-                referrerPolicy="no-referrer"
-              />
-            </div>
-            {/* Floating Badge */}
-            <motion.div 
-              animate={{ y: [0, -15, 0] }}
-              transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-              className="absolute -bottom-10 -left-10 bg-white p-6 rounded-none shadow-2xl border border-luxury-beige/20 flex items-center gap-4 max-w-[240px]"
-            >
-              <div className="w-12 h-12 bg-luxury-gold/10 rounded-none flex items-center justify-center text-luxury-gold">
-                <Gem className="w-6 h-6" />
-              </div>
-              <div>
-                <p className="text-[10px] uppercase tracking-widest font-bold text-slate-400 mb-1">Curation</p>
-                <p className="text-sm font-serif italic text-luxury-black">Premium Quality</p>
-              </div>
-            </motion.div>
           </motion.div>
         </div>
 

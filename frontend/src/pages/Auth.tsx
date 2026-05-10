@@ -66,8 +66,19 @@ export default function Auth() {
   };
 
   return (
-    <div className="min-h-screen bg-luxury-white pt-32 pb-20 px-6">
-      <div className="max-w-md mx-auto">
+    <div className="relative min-h-screen flex items-center justify-center pt-24 pb-12 px-6">
+      {/* Background Image */}
+      <div className="absolute inset-0 z-0">
+        <img 
+          src="https://pixabay.com/images/download/x-559307_1920.jpg" 
+          alt="Auth Background" 
+          className="w-full h-full object-cover"
+          referrerPolicy="no-referrer"
+        />
+        <div className="absolute inset-0 bg-luxury-navy/60 backdrop-blur-sm" />
+      </div>
+
+      <div className="max-w-md w-full relative z-10">
         <div className="text-center mb-12">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -84,7 +95,7 @@ export default function Auth() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="text-4xl md:text-5xl font-serif italic text-luxury-black mb-4"
+            className="text-4xl md:text-5xl font-serif italic text-white mb-4"
           >
             {isLogin ? 'Welcome Back' : 'Create Account'}
           </motion.h1>
@@ -92,7 +103,7 @@ export default function Auth() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="text-slate-400 text-sm font-light tracking-wide"
+            className="text-slate-200 text-sm font-light tracking-wide"
           >
             {isLogin 
               ? 'Access your private wardrobe and track your luxury orders.' 
