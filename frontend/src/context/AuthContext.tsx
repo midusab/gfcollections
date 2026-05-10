@@ -93,6 +93,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         }
       } catch (err) {
         console.error('Session initialization error:', err);
+        // If getUser() threw an error (like a missing user), we must purge local storage
+        // otherwise the onAuthStateChange listener will resurrect the ghost session!
+        await supabase.auth.signOut();
       } finally {
         if (mounted) setLoading(false);
       }
