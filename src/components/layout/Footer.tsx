@@ -13,23 +13,23 @@ import { Link } from 'react-router-dom';
 
 export default function Footer() {
   return (
-    <footer id="contact" className="bg-luxury-navy pt-40 pb-20 border-t border-white/5 relative overflow-hidden">
+    <footer id="contact" className="bg-luxury-navy pt-20 md:pt-40 pb-16 md:pb-20 border-t border-white/5 relative overflow-hidden">
       <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-luxury-blue/5 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/4" />
       <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-luxury-pink/5 rounded-full blur-[120px] translate-y-1/2 -translate-x-1/4" />
 
       <div className="max-w-7xl mx-auto px-6 md:px-8 relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-20 mb-32">
-          <div className="space-y-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 md:gap-20 mb-20 md:mb-32">
+          <div className="space-y-8 md:space-y-12">
             <img 
               src="/logo.png" 
               alt="GF Collection" 
-              className="h-16 w-auto brightness-0 invert opacity-90" 
+              className="h-12 md:h-16 w-auto brightness-0 invert opacity-90" 
               referrerPolicy="no-referrer" 
             />
-            <p className="text-white/40 text-[14px] leading-relaxed font-light italic">
+            <p className="text-white/40 text-[13px] md:text-[14px] leading-relaxed font-light italic">
               "The Power House of Fashion. Redefining Kenyan luxury for the woman who commands attention and respect."
             </p>
-            <div className="flex gap-8">
+            <div className="flex gap-6 md:gap-8">
               <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-white/40 hover:text-white hover:border-white transition-all transform hover:-translate-y-1"><Instagram className="w-4 h-4" /></a>
               <a href="https://wa.me/254740275625" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-white/40 hover:text-[#25D366] hover:border-[#25D366] transition-all transform hover:-translate-y-1"><MessageCircle className="w-4 h-4" /></a>
             </div>

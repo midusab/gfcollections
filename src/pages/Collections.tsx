@@ -215,16 +215,16 @@ export default function Collections() {
   );
 
   return (
-    <div className="pt-40 pb-32 bg-luxury-white min-h-screen">
+    <div className="pt-32 md:pt-40 pb-20 md:pb-32 bg-luxury-white min-h-screen">
       <div className="max-w-7xl mx-auto px-6 md:px-8">
-        <header className="mb-24 space-y-8">
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-10">
-            <div className="space-y-6">
-              <p className="text-luxury-gold uppercase tracking-[0.4em] text-[11px] font-bold">The catalogue</p>
-              <h1 className="text-6xl md:text-[84px] font-serif text-luxury-black italic leading-[0.95] font-bold">Collections</h1>
+        <header className="mb-16 md:mb-24 space-y-6 md:space-y-8">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 md:gap-10">
+            <div className="space-y-4 md:space-y-6">
+              <p className="text-luxury-gold uppercase tracking-[0.4em] text-[10px] md:text-[11px] font-bold">The catalogue</p>
+              <h1 className="text-4xl sm:text-6xl md:text-[84px] font-serif text-luxury-black italic leading-[0.95] font-bold">Collections</h1>
             </div>
             
-            <div className="flex items-center gap-10 pb-4 border-b border-luxury-ice/30">
+            <div className="flex flex-wrap items-center gap-6 md:gap-10 pb-4 border-b border-luxury-ice/30">
               <div className="flex items-center gap-4">
                 <span className="text-[10px] uppercase tracking-widest font-bold text-slate-400">Sort By:</span>
                 <select 
@@ -240,21 +240,21 @@ export default function Collections() {
               </div>
               <button 
                 onClick={() => setIsFilterDrawerOpen(true)}
-                className="lg:hidden luxury-button btn-gradient !px-8 !py-3"
+                className="lg:hidden luxury-button btn-gradient !px-6 md:!px-8 !py-2.5 md:!py-3"
               >
-                <Filter className="w-4 h-4" />
+                <Filter className="w-3.5 h-3.5 md:w-4 md:h-4" />
                 Refine
               </button>
             </div>
           </div>
-          <div className="w-32 h-[1px] bg-luxury-gold" />
+          <div className="w-24 md:w-32 h-[1px] bg-luxury-gold" />
         </header>
 
-        <div className="flex gap-20">
+        <div className="flex flex-col lg:flex-row gap-12 lg:gap-20">
           {/* Desktop Filter Sidebar */}
-          <aside className="hidden lg:block w-72 flex-shrink-0">
-            <div className="sticky top-40 glass-card p-8 rounded-3xl">
-              <div className="flex items-center justify-between mb-10 pb-4 border-b border-white/10">
+          <aside className="hidden lg:block w-72 flex-shrink-0 order-1">
+            <div className="sticky top-40 glass-card p-8 rounded-3xl border-luxury-ice/20">
+              <div className="flex items-center justify-between mb-10 pb-4 border-b border-luxury-navy/5">
                 <h3 className="text-sm uppercase tracking-[0.3em] font-bold text-luxury-navy flex items-center gap-3">
                   <Filter className="w-4 h-4 text-luxury-gold" />
                   Filter By
@@ -265,9 +265,9 @@ export default function Collections() {
           </aside>
 
           {/* Main Grid */}
-          <main className="flex-grow">
+          <main className="flex-grow order-2">
             {filteredProducts.length > 0 ? (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-x-10 gap-y-16">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-x-6 md:gap-x-10 gap-y-12 md:gap-y-16">
                 {filteredProducts.map((product) => (
                   <ProductCard 
                     key={product.id} 
