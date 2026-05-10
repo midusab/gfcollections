@@ -19,7 +19,15 @@ export default function Auth() {
   const [fullName, setFullName] = useState('');
   const [phone, setPhone] = useState('');
   const [locationStr, setLocationStr] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
+  const [forceShow, setForceShow] = useState(false);
+
+  // Safety timeout to prevent stuck spinner
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setForceShow(true);
+    }, 2000);
+    return () => clearTimeout(timer);
+  }, []);
 
   // Redirect if already logged in
   useEffect(() => {
@@ -28,7 +36,7 @@ export default function Auth() {
     }
   }, [user, authLoading, navigate]);
 
-  if (authLoading) {
+  if (authLoading && !forceShow) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-luxury-white">
         <div className="w-8 h-8 border-4 border-luxury-blue border-t-transparent rounded-full animate-spin"></div>
