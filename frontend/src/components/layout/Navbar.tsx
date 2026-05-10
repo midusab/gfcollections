@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Link, useLocation } from 'react-router-dom';
 import { PRODUCTS, Product } from '../../ProductData';
+import logo from '../assets/logo.png';
 import { 
   ShoppingBag, 
   Search, 
@@ -304,7 +305,7 @@ export default function Navbar() {
             <Link to="/" className="flex items-center py-1 group">
               <motion.img 
                 whileHover={{ scale: 1.05 }}
-                src="/logo.png" 
+                src={logo}
                 alt="GF" 
                 className="h-10 md:h-14 w-auto transition-all brightness-0 invert" 
                 referrerPolicy="no-referrer" 
