@@ -7,20 +7,41 @@ import {
   UserCheck, 
   Heart, 
 } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { PRODUCTS, Product } from '../ProductData';
 import { Link } from 'react-router-dom';
 import ProductCard from '../components/ProductCard';
 import ProductModal from '../components/ProductModal';
+import { supabase } from '../lib/supabase';
 
 export default function Home() {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [activeCategory, setActiveCategory] = useState("All");
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchProducts() {
+      setLoading(true);
+      const { data, error } = await supabase
+        .from('products')
+        .select('*');
+      
+      if (data && data.length > 0) {
+        setProducts(data);
+      } else {
+        // Fallback to static data if DB is empty for initial setup
+        setProducts(PRODUCTS);
+      }
+      setLoading(false);
+    }
+    fetchProducts();
+  }, []);
 
   const categories = ["All", "Dresses", "Bags", "Shoes"];
   const filteredProducts = activeCategory === "All" 
-    ? PRODUCTS 
-    : PRODUCTS.filter(p => {
+    ? products 
+    : products.filter(p => {
         if (activeCategory === "Dresses") return p.category.includes("Dress");
         if (activeCategory === "Bags") return p.category.includes("Bag");
         if (activeCategory === "Shoes") return p.category.includes("Heels") || p.category.includes("Sneakers");

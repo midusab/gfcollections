@@ -340,6 +340,14 @@ export default function Navbar() {
             </button>
 
             <div className="flex items-center gap-4">
+               {!user && (
+                 <Link 
+                   to="/auth" 
+                   className="hidden sm:block text-[10px] uppercase tracking-widest font-bold text-luxury-black/60 hover:text-luxury-black transition-colors"
+                 >
+                   Join
+                 </Link>
+               )}
                <div className="relative group cursor-pointer">
                  <Link 
                   to={user ? "/account" : "/auth"} 
