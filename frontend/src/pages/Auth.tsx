@@ -2,7 +2,7 @@ import { useState, FormEvent } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { supabase } from '../lib/supabase';
 import { useNavigate } from 'react-router-dom';
-import { Mail, Lock, User, Phone, MapPin, ArrowRight, Loader2, Sparkles } from 'lucide-react';
+import { Mail, Lock, User, Phone, MapPin, ArrowRight, Loader2, Sparkles, Eye, EyeOff } from 'lucide-react';
 
 export default function Auth() {
   const [isLogin, setIsLogin] = useState(true);
@@ -14,6 +14,9 @@ export default function Auth() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [fullName, setFullName] = useState('');
+  const [phone, setPhone] = useState('');
+  const [locationStr, setLocationStr] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -35,6 +38,8 @@ export default function Auth() {
           options: {
             data: {
               full_name: fullName,
+              phone: phone,
+              location: locationStr,
             },
           },
         });
@@ -93,25 +98,51 @@ export default function Auth() {
           <form onSubmit={handleSubmit} className="space-y-6">
             <AnimatePresence mode="wait">
               {!isLogin && (
-                <motion.div
-                  initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: 'auto' }}
-                  exit={{ opacity: 0, height: 0 }}
-                  className="space-y-2"
-                >
-                  <label className="text-[10px] uppercase tracking-widest font-bold text-slate-500 ml-4">Full Name</label>
-                  <div className="relative group">
-                    <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-300 group-focus-within:text-luxury-blue transition-colors" />
-                    <input 
-                      required
-                      type="text"
-                      placeholder="Jane Doe"
-                      value={fullName}
-                      onChange={(e) => setFullName(e.target.value)}
-                      className="w-full pl-12 pr-6 py-4 bg-luxury-beige/20 rounded-2xl border-transparent focus:border-luxury-blue focus:bg-white focus:ring-0 transition-all placeholder:text-slate-300 text-luxury-black"
-                    />
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <label className="text-[10px] uppercase tracking-widest font-bold text-slate-500 ml-4">Full Name</label>
+                      <div className="relative group">
+                        <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-300 group-focus-within:text-luxury-blue transition-colors" />
+                        <input 
+                          required
+                          type="text"
+                          placeholder="Jane Doe"
+                          value={fullName}
+                          onChange={(e) => setFullName(e.target.value)}
+                          className="w-full pl-12 pr-6 py-4 bg-luxury-beige/20 rounded-2xl border-transparent focus:border-luxury-blue focus:bg-white focus:ring-0 transition-all placeholder:text-slate-300 text-luxury-black"
+                        />
+                      </div>
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-[10px] uppercase tracking-widest font-bold text-slate-500 ml-4">Phone Number</label>
+                      <div className="relative group">
+                        <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-300 group-focus-within:text-luxury-blue transition-colors" />
+                        <input 
+                          required
+                          type="tel"
+                          placeholder="+254..."
+                          value={phone}
+                          onChange={(e) => setPhone(e.target.value)}
+                          className="w-full pl-12 pr-6 py-4 bg-luxury-beige/20 rounded-2xl border-transparent focus:border-luxury-blue focus:bg-white focus:ring-0 transition-all placeholder:text-slate-300 text-luxury-black"
+                        />
+                      </div>
+                    </div>
                   </div>
-                </motion.div>
+
+                  <div className="space-y-2">
+                    <label className="text-[10px] uppercase tracking-widest font-bold text-slate-500 ml-4">Location</label>
+                    <div className="relative group">
+                      <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-300 group-focus-within:text-luxury-blue transition-colors" />
+                      <input 
+                        required
+                        type="text"
+                        placeholder="Nairobi, Kakamega..."
+                        value={locationStr}
+                        onChange={(e) => setLocationStr(e.target.value)}
+                        className="w-full pl-12 pr-6 py-4 bg-luxury-beige/20 rounded-2xl border-transparent focus:border-luxury-blue focus:bg-white focus:ring-0 transition-all placeholder:text-slate-300 text-luxury-black"
+                      />
+                    </div>
+                  </div>
               )}
             </AnimatePresence>
 
@@ -136,12 +167,19 @@ export default function Auth() {
                 <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-300 group-focus-within:text-luxury-blue transition-colors" />
                 <input 
                   required
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   placeholder="••••••••"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full pl-12 pr-6 py-4 bg-luxury-beige/20 rounded-2xl border-transparent focus:border-luxury-blue focus:bg-white focus:ring-0 transition-all placeholder:text-slate-300 text-luxury-black"
+                  className="w-full pl-12 pr-12 py-4 bg-luxury-beige/20 rounded-2xl border-transparent focus:border-luxury-blue focus:bg-white focus:ring-0 transition-all placeholder:text-slate-300 text-luxury-black"
                 />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-300 hover:text-luxury-blue transition-colors"
+                >
+                  {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                </button>
               </div>
             </div>
 

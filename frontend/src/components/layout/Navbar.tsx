@@ -331,42 +331,42 @@ export default function Navbar() {
           </div>
 
           {/* Right: Icons */}
-          <div className="flex-none flex items-center justify-end gap-5 md:gap-8 lg:w-1/4">
+          <div className="flex-none flex items-center justify-end gap-3 md:gap-5 lg:w-1/4">
             {!user && (
               <Link 
                 to="/auth" 
-                className="hidden sm:block text-[11px] uppercase tracking-[0.2em] font-bold text-luxury-black/60 hover:text-luxury-black transition-all border-b border-transparent hover:border-luxury-black/20 pb-0.5"
+                className="hidden xl:block text-[10px] uppercase tracking-[0.2em] font-bold text-luxury-black/60 hover:text-luxury-black transition-all px-4 py-2"
               >
                 Sign In
               </Link>
             )}
 
-            <div className="flex items-center gap-4">
+            <div className="flex items-center bg-luxury-black/5 rounded-full p-1.5 border border-luxury-black/5">
                <button 
                 onClick={() => setIsSearchOpen(true)}
-                className={`p-3 rounded-full transition-all ${navScrolled ? 'bg-luxury-beige/40 text-luxury-black hover:bg-luxury-beige/60' : 'bg-luxury-black/5 text-luxury-black hover:bg-luxury-black/10'}`}
+                className="p-2.5 text-luxury-black hover:text-luxury-blue transition-all"
                >
                 <Search className="w-5 h-5" />
                </button>
 
-               <div className="relative group cursor-pointer">
-                 <Link 
-                  to={user ? "/account" : "/auth"} 
-                  className={`p-3 rounded-full transition-all ${navScrolled ? 'bg-luxury-beige/40 text-luxury-black hover:bg-luxury-beige/60' : 'bg-luxury-black/5 text-luxury-black hover:bg-luxury-black/10'}`}
-                 >
-                    <User className="w-5 h-5" />
-                 </Link>
-               </div>
+               <div className="w-[1px] h-4 bg-luxury-black/10 mx-1" />
+
+               <Link 
+                to={user ? "/account" : "/auth"} 
+                className="p-2.5 text-luxury-black hover:text-luxury-blue transition-all"
+               >
+                  <User className="w-5 h-5" />
+               </Link>
                
-               <div className="relative group cursor-pointer">
-                 <Link 
-                  to="/collections" 
-                  className="p-3 rounded-full bg-luxury-black text-white shadow-lg shadow-luxury-black/20 hover:scale-105 transition-all relative"
-                 >
-                    <ShoppingBag className="w-5 h-5" />
-                    <span className="absolute -top-1 -right-1 bg-luxury-red text-white text-[8px] w-4.5 h-4.5 flex items-center justify-center rounded-full font-bold">3</span>
-                 </Link>
-               </div>
+               <div className="w-[1px] h-4 bg-luxury-black/10 mx-1" />
+
+               <Link 
+                to="/collections" 
+                className="p-2.5 text-luxury-black hover:text-luxury-blue transition-all relative"
+               >
+                  <ShoppingBag className="w-5 h-5" />
+                  <span className="absolute top-1.5 right-1.5 bg-luxury-blue text-white text-[7px] w-4 h-4 flex items-center justify-center rounded-full font-bold">3</span>
+               </Link>
             </div>
           </div>
         </div>
