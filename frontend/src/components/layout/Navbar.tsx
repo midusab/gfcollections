@@ -13,8 +13,10 @@ import {
   X,
   Home,
   Grid,
-  User
+  User,
+  LogOut
 } from 'lucide-react';
+import { useAuth } from '../../context/AuthContext';
 
 const navigationLinks = [
   { name: "New In", href: "/new-arrivals" },
@@ -50,6 +52,7 @@ const navigationLinks = [
 ];
 
 export default function Navbar() {
+  const { user, signOut } = useAuth();
   const [scrolled, setScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -247,8 +250,19 @@ export default function Navbar() {
                 <div className="mt-12 pt-8 border-t border-luxury-beige grid grid-cols-2 gap-6">
                   <Link to="/about" onClick={() => setIsMenuOpen(false)} className="text-[10px] uppercase tracking-widest font-bold text-slate-400">About GF</Link>
                   <Link to="/faq" onClick={() => setIsMenuOpen(false)} className="text-[10px] uppercase tracking-widest font-bold text-slate-400">FAQ</Link>
-                  <Link to="/contact" onClick={() => setIsMenuOpen(false)} className="text-[10px] uppercase tracking-widest font-bold text-slate-400">Contact</Link>
+                  <Link to={user ? "/account" : "/auth"} onClick={() => setIsMenuOpen(false)} className="text-[10px] uppercase tracking-widest font-bold text-slate-400">Account</Link>
                   <a href="https://wa.me/254740275625" className="text-[10px] uppercase tracking-widest font-bold text-[#25D366]">WhatsApp</a>
+                  {user && (
+                    <button 
+                      onClick={() => {
+                        signOut();
+                        setIsMenuOpen(false);
+                      }} 
+                      className="text-[10px] uppercase tracking-widest font-bold text-red-500 text-left"
+                    >
+                      Sign Out
+                    </button>
+                  )}
                 </div>
               </nav>
             </motion.div>
@@ -331,6 +345,12 @@ export default function Navbar() {
                </div>
                
                <div className="relative group cursor-pointer">
+                 <Link to={user ? "/account" : "/auth"} className="bg-white/5 p-4 rounded-full hover:bg-white/10 transition-all block relative border border-white/5">
+                    <User className="w-5 h-5 text-white/60 group-hover:text-luxury-blue transition-colors" />
+                 </Link>
+               </div>
+               
+               <div className="relative group cursor-pointer">
                  <Link to="/collections" className="bg-white/5 p-4 rounded-full hover:bg-white/10 transition-all block relative border border-white/5">
                     <ShoppingBag className="w-5 h-5 text-white/60 group-hover:text-luxury-blue transition-colors" />
                     <span className="absolute -top-1 -right-1 bg-luxury-red text-white text-[8px] w-4.5 h-4.5 flex items-center justify-center rounded-full font-bold shadow-2xl shadow-luxury-red/50">3</span>
@@ -370,9 +390,9 @@ export default function Navbar() {
           </div>
           <span className="text-[8px] tracking-[0.2em] font-medium uppercase">Cart</span>
         </Link>
-        <Link to="/contact" className={`flex flex-col items-center gap-2 ${location.pathname === '/contact' ? 'text-luxury-blue' : 'text-white/30 hover:text-white'}`}>
+        <Link to={user ? "/account" : "/auth"} className={`flex flex-col items-center gap-2 ${location.pathname === '/account' || location.pathname === '/auth' ? 'text-luxury-blue' : 'text-white/30 hover:text-white'}`}>
           <User className="w-5 h-5 transition-colors" />
-          <span className="text-[8px] tracking-[0.2em] font-medium uppercase">Account</span>
+          <span className="text-[8px] tracking-[0.2em] font-medium uppercase">{user ? 'Account' : 'Login'}</span>
         </Link>
       </div>
     </>

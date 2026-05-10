@@ -17,6 +17,10 @@ import Contact from './pages/Contact';
 import FAQ from './pages/FAQ';
 import WhatsAppButton from './components/ui/WhatsAppButton';
 
+import { AuthProvider } from './context/AuthContext';
+import Auth from './pages/Auth';
+import Account from './pages/Account';
+
 // Scroll to top on route change
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -28,25 +32,29 @@ function ScrollToTop() {
 
 export default function App() {
   return (
-    <Router>
-      <ScrollToTop />
-      <div className="min-h-screen selection:bg-luxury-blue selection:text-white bg-luxury-white">
-        <Navbar />
+    <AuthProvider>
+      <Router>
+        <ScrollToTop />
+        <div className="min-h-screen selection:bg-luxury-blue selection:text-white bg-luxury-white">
+          <Navbar />
 
-        <main>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/collections" element={<Collections />} />
-            <Route path="/new-arrivals" element={<NewArrivals />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/faq" element={<FAQ />} />
-          </Routes>
-        </main>
+          <main>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/collections" element={<Collections />} />
+              <Route path="/new-arrivals" element={<NewArrivals />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/faq" element={<FAQ />} />
+              <Route path="/auth" element={<Auth />} />
+              <Route path="/account" element={<Account />} />
+            </Routes>
+          </main>
 
-        <Footer />
-        <WhatsAppButton />
-      </div>
-    </Router>
+          <Footer />
+          <WhatsAppButton />
+        </div>
+      </Router>
+    </AuthProvider>
   );
 }
