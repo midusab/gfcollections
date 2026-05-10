@@ -270,36 +270,52 @@ export default function Navbar() {
         )}
       </AnimatePresence>
 
-      <nav className={`fixed inset-x-0 top-0 z-[120] transition-all duration-700 ${navScrolled ? 'bg-luxury-navy/90 backdrop-blur-2xl py-4 border-b border-white/5 shadow-2xl' : 'bg-transparent py-8 border-b border-transparent'}`}>
-        <div className="max-w-7xl mx-auto px-6 md:px-8 flex items-center justify-between relative">
-          {/* Left: Desktop Links / Mobile Menu Button */}
-          <div className="flex-1 flex items-center">
-            <button onClick={() => setIsMenuOpen(true)} className="p-4 bg-white/5 rounded-full hover:bg-white/10 transition-colors lg:hidden border border-white/5 mr-4">
-              <Menu className="w-5 h-5 text-white" />
+      <nav className={`fixed inset-x-0 top-0 z-[120] transition-all duration-700 ${navScrolled ? 'bg-white/90 backdrop-blur-2xl py-4 border-b border-luxury-beige/20 shadow-xl' : 'bg-transparent py-8 border-b border-transparent'}`}>
+        <div className="max-w-7xl mx-auto px-6 md:px-8 flex items-center relative">
+          {/* Left: Logo & Mobile Menu Button */}
+          <div className="flex-none flex items-center gap-4 lg:w-1/4">
+            <button 
+              onClick={() => setIsMenuOpen(true)} 
+              className={`p-3 rounded-full lg:hidden border transition-colors ${navScrolled ? 'bg-luxury-beige/20 border-luxury-beige/40 text-luxury-black' : 'bg-white/10 border-white/20 text-luxury-black'}`}
+            >
+              <Menu className="w-5 h-5" />
             </button>
-            <div className="hidden lg:flex gap-6 xl:gap-10 items-center whitespace-nowrap">
+            <Link to="/" className="flex items-center group">
+              <motion.img 
+                whileHover={{ scale: 1.05 }}
+                src={logo}
+                alt="GF" 
+                className={`h-10 md:h-12 w-auto transition-all ${navScrolled ? 'brightness-0' : 'brightness-0'}`} 
+                referrerPolicy="no-referrer" 
+              />
+            </Link>
+          </div>
+
+          {/* Center: Desktop Links */}
+          <div className="hidden lg:flex flex-1 justify-center">
+            <div className="flex gap-8 xl:gap-12 items-center whitespace-nowrap">
               {navigationLinks.map((link) => (
                 <div key={link.name} className="relative group/nav flex items-center h-full">
                   <Link 
                     to={link.href} 
                     state={{ category: link.category }} 
-                    className={`text-[10px] tracking-[0.3em] font-semibold transition-all duration-300 relative py-2 uppercase ${link.name === 'Sale' ? 'text-luxury-pink' : 'text-white/60 hover:text-white'}`}
+                    className={`text-[11px] tracking-[0.2em] font-bold transition-all duration-300 relative py-2 uppercase ${link.name === 'Sale' ? 'text-luxury-pink' : 'text-luxury-black/60 hover:text-luxury-black'}`}
                   >
                     {link.name}
                     <span className="absolute -bottom-1 left-0 w-0 h-[1.5px] bg-luxury-blue transition-all duration-500 group-hover/nav:w-full" />
                   </Link>
                   
                   {link.dropdown && (
-                    <div className="absolute top-full left-0 pt-8 opacity-0 invisible group-hover/nav:opacity-100 group-hover/nav:visible transition-all duration-500 transform translate-y-4 group-hover/nav:translate-y-0">
-                      <div className="glass-card !bg-luxury-navy/98 min-w-[280px] p-10 rounded-[2rem] border-white/5">
-                        <div className="space-y-8">
-                           <p className="text-[9px] tracking-[0.4em] text-luxury-gold font-bold border-b border-white/5 pb-4 mb-4 uppercase">The selection</p>
+                    <div className="absolute top-full left-1/2 -translate-x-1/2 pt-8 opacity-0 invisible group-hover/nav:opacity-100 group-hover/nav:visible transition-all duration-500 transform translate-y-4 group-hover/nav:translate-y-0">
+                      <div className="glass-card !bg-white min-w-[280px] p-8 rounded-[2rem] border-luxury-beige/20 shadow-2xl">
+                        <div className="space-y-6">
+                           <p className="text-[9px] tracking-[0.4em] text-luxury-gold font-bold border-b border-luxury-beige/20 pb-4 mb-4 uppercase">The selection</p>
                            {link.dropdown.map(item => (
                              <Link 
                                 key={item.name}
                                 to="/collections"
                                 state={{ category: item.category }}
-                                className="text-[10px] uppercase tracking-[0.4em] font-bold text-white/40 hover:text-white transition-all flex items-center justify-between group/item"
+                                className="text-[10px] uppercase tracking-[0.4em] font-bold text-luxury-black/40 hover:text-luxury-blue transition-all flex items-center justify-between group/item"
                              >
                                {item.name}
                                <ChevronRight className="w-3.5 h-3.5 opacity-0 -translate-x-2 group-hover/item:opacity-100 group-hover/item:translate-x-0 transition-all text-luxury-blue" />
@@ -314,46 +330,32 @@ export default function Navbar() {
             </div>
           </div>
 
-          {/* Center: Logo */}
-          <div className="flex-none md:absolute md:left-1/2 md:-translate-x-1/2">
-            <Link to="/" className="flex items-center py-1 group">
-              <motion.img 
-                whileHover={{ scale: 1.05 }}
-                src={logo}
-                alt="GF" 
-                className="h-10 md:h-14 w-auto transition-all brightness-0 invert" 
-                referrerPolicy="no-referrer" 
-              />
-            </Link>
-          </div>
+          {/* Right: Icons */}
+          <div className="flex-none flex items-center justify-end gap-4 md:gap-8 lg:w-1/4">
+            <button 
+              onClick={() => setIsSearchOpen(true)}
+              className={`p-3 rounded-full transition-all ${navScrolled ? 'bg-luxury-beige/20 text-luxury-black hover:bg-luxury-beige/40' : 'bg-luxury-black/5 text-luxury-black hover:bg-luxury-black/10'}`}
+            >
+              <Search className="w-5 h-5" />
+            </button>
 
-          {/* Right: Search / Icons */}
-          <div className="flex-1 flex items-center justify-end gap-6 md:gap-12 text-white">
-            <div className="hidden lg:flex items-center gap-10">
-               <div 
-                 onClick={() => setIsSearchOpen(true)}
-                 className="flex items-center gap-4 cursor-pointer group bg-white/5 px-8 py-3 rounded-full border border-white/5 hover:border-white/20 hover:bg-white/10 transition-all duration-500"
-               >
-                  <Search className="w-4 h-4 text-white/60 group-hover:text-luxury-blue transition-colors" />
-                  <span className="text-[10px] tracking-[0.3em] font-semibold text-white/30 group-hover:text-white transition-colors uppercase">Search the house</span>
-               </div>
-            </div>
-
-            <div className="flex items-center gap-8">
-               <div className="relative group cursor-pointer hidden sm:block">
-                 <Heart className="w-5 h-5 text-white/40 group-hover:text-luxury-pink transition-colors" />
-               </div>
-               
+            <div className="flex items-center gap-4">
                <div className="relative group cursor-pointer">
-                 <Link to={user ? "/account" : "/auth"} className="bg-white/5 p-4 rounded-full hover:bg-white/10 transition-all block relative border border-white/5">
-                    <User className="w-5 h-5 text-white/60 group-hover:text-luxury-blue transition-colors" />
+                 <Link 
+                  to={user ? "/account" : "/auth"} 
+                  className={`p-3 rounded-full transition-all ${navScrolled ? 'bg-luxury-beige/20 text-luxury-black hover:bg-luxury-beige/40' : 'bg-luxury-black/5 text-luxury-black hover:bg-luxury-black/10'}`}
+                 >
+                    <User className="w-5 h-5" />
                  </Link>
                </div>
                
                <div className="relative group cursor-pointer">
-                 <Link to="/collections" className="bg-white/5 p-4 rounded-full hover:bg-white/10 transition-all block relative border border-white/5">
-                    <ShoppingBag className="w-5 h-5 text-white/60 group-hover:text-luxury-blue transition-colors" />
-                    <span className="absolute -top-1 -right-1 bg-luxury-red text-white text-[8px] w-4.5 h-4.5 flex items-center justify-center rounded-full font-bold shadow-2xl shadow-luxury-red/50">3</span>
+                 <Link 
+                  to="/collections" 
+                  className={`p-3 rounded-full transition-all relative ${navScrolled ? 'bg-luxury-black text-white shadow-lg shadow-luxury-black/20' : 'bg-luxury-black text-white shadow-lg shadow-luxury-black/20'}`}
+                 >
+                    <ShoppingBag className="w-5 h-5" />
+                    <span className="absolute -top-1 -right-1 bg-luxury-red text-white text-[8px] w-4.5 h-4.5 flex items-center justify-center rounded-full font-bold">3</span>
                  </Link>
                </div>
             </div>

@@ -29,73 +29,80 @@ export default function Home() {
 
   return (
     <div className="pt-0">
-        {/* Hero Section */}
-      <section className="relative h-screen flex items-center overflow-hidden bg-luxury-navy">
-        {/* Background Image with Blue Luxury Lighting */}
-        <div className="absolute inset-0">
-          <img 
-            src="https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?q=80&w=2000" 
-            alt="Luxury Fashion Hero"
-            className="w-full h-full object-cover grayscale-[0.2] opacity-60"
-            referrerPolicy="no-referrer"
-          />
-          {/* Blue Luxury Gradient Overlay */}
-          <div className="absolute inset-0 bg-gradient-to-r from-luxury-navy via-luxury-blue/30 to-transparent" />
-          <div className="absolute inset-0 bg-gradient-to-t from-luxury-navy/90 via-transparent to-luxury-navy/40" />
-        </div>
-
-        <div className="max-w-7xl mx-auto px-6 md:px-8 w-full relative z-10">
-            <motion.div 
-            initial={{ opacity: 0, x: -50 }}
+      {/* Hero Section */}
+      <section className="relative h-[90vh] flex items-center overflow-hidden bg-[#F8F7F3]">
+        {/* Decorative Background Elements */}
+        <div className="absolute top-0 right-0 w-1/2 h-full bg-[#EBE9E0] -skew-x-6 translate-x-20 z-0" />
+        
+        <div className="max-w-7xl mx-auto px-6 md:px-8 w-full relative z-10 grid grid-cols-1 lg:grid-cols-2 items-center gap-12">
+          {/* Left Content */}
+          <motion.div 
+            initial={{ opacity: 0, x: -30 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-            className="max-w-3xl glass-card p-8 sm:p-12 md:p-20 rounded-[2.5rem] md:rounded-[3rem] border-white/5"
+            transition={{ duration: 1, ease: "easeOut" }}
+            className="max-w-xl"
           >
-            <motion.p 
+            <motion.span 
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 0.5 }}
-              className="text-luxury-gold uppercase tracking-[0.4em] text-[10px] md:text-[11px] font-bold mb-6 md:mb-8"
+              transition={{ delay: 0.3 }}
+              className="text-luxury-gold uppercase tracking-[0.4em] text-[10px] font-bold mb-4 block"
             >
-              The Power House of Fashion
-            </motion.p>
-            <h1 className="text-4xl sm:text-6xl md:text-[72px] lg:text-[84px] font-serif text-white italic leading-[0.95] mb-8 md:mb-10 font-bold">
-              Divine <span className="text-luxury-gold">Elegance</span>
-              <br />
-              <span className="text-xl sm:text-2xl md:text-4xl block mt-4 md:mt-6 font-sans not-italic font-medium tracking-tight opacity-90">Curated for your best moments</span>
+              New Collection 2026
+            </motion.span>
+            <h1 className="text-5xl sm:text-7xl lg:text-[80px] font-serif text-luxury-black leading-[1.1] mb-8">
+              Refined <span className="italic">Elegance</span>
             </h1>
-            <p className="text-white/60 text-base md:text-xl font-light mb-8 md:mb-12 max-w-xl leading-relaxed">
-              Discover the latest curation of luxury dresses, statement bags, and timeless shoes crafted for the modern Kenyan woman.
+            <p className="text-luxury-black/60 text-lg md:text-xl font-light mb-10 leading-relaxed max-w-md">
+              Experience the perfect blend of contemporary design and timeless luxury crafted for your most significant moments.
             </p>
-            <div className="flex flex-col sm:flex-row gap-6">
-              <Link to="/collections" className="luxury-button btn-gradient">
-                Shop New Collection
-                <ArrowRight className="w-4 h-4" />
+            <div className="flex items-center gap-8">
+              <Link to="/collections" className="bg-luxury-black text-white px-10 py-4 rounded-full text-[11px] uppercase tracking-widest font-bold hover:bg-luxury-gold transition-all shadow-xl shadow-luxury-black/10">
+                Explore Collection
               </Link>
             </div>
           </motion.div>
+
+          {/* Right Image */}
+          <motion.div 
+            initial={{ opacity: 0, scale: 1.1 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1.5, ease: "easeOut" }}
+            className="relative hidden lg:block"
+          >
+            <div className="relative aspect-[4/5] rounded-[2rem] overflow-hidden shadow-[0_40px_80px_-15px_rgba(0,0,0,0.2)]">
+              <img 
+                src="https://images.unsplash.com/photo-1539109132332-6299166a607e?q=80&w=1200" 
+                alt="High Fashion"
+                className="w-full h-full object-cover"
+                referrerPolicy="no-referrer"
+              />
+            </div>
+            {/* Floating Badge */}
+            <motion.div 
+              animate={{ y: [0, -15, 0] }}
+              transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+              className="absolute -bottom-10 -left-10 bg-white p-6 rounded-3xl shadow-2xl border border-luxury-beige/20 flex items-center gap-4 max-w-[240px]"
+            >
+              <div className="w-12 h-12 bg-luxury-gold/10 rounded-full flex items-center justify-center text-luxury-gold">
+                <Gem className="w-6 h-6" />
+              </div>
+              <div>
+                <p className="text-[10px] uppercase tracking-widest font-bold text-slate-400 mb-1">Curation</p>
+                <p className="text-sm font-serif italic text-luxury-black">Premium Quality</p>
+              </div>
+            </motion.div>
+          </motion.div>
         </div>
 
-        {/* Floating Detail */}
-        <motion.div 
-          animate={{ y: [0, -20, 0] }}
-          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute bottom-20 right-20 hidden lg:block"
-        >
-          <div className="glass-card p-6 rounded-2xl flex items-center gap-6 max-w-[320px]">
-             <div className="w-20 h-24 rounded-xl overflow-hidden shadow-2xl">
-                <img src="https://images.unsplash.com/photo-1595777457583-95e059d581b8?q=80&w=400" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
-             </div>
-             <div>
-                <div className="flex items-center gap-2 mb-1">
-                   <p className="text-luxury-white/50 text-[10px] tracking-[0.3em] italic uppercase">Exclusive edit</p>
-                   <div className="w-1.5 h-1.5 bg-luxury-red rounded-full animate-pulse" />
-                </div>
-                <p className="text-white font-serif text-lg leading-tight mb-2">Midnight Bloom Maxi Dress</p>
-                <Link to="/collections" className="text-luxury-gold text-[9px] uppercase tracking-[0.3em] font-bold hover:text-white transition-colors">Discover details</Link>
-             </div>
-          </div>
-        </motion.div>
+        {/* Mobile Background Image (Visible only on mobile) */}
+        <div className="absolute inset-0 lg:hidden opacity-20 z-0">
+          <img 
+            src="https://images.unsplash.com/photo-1539109132332-6299166a607e?q=80&w=1200" 
+            className="w-full h-full object-cover"
+            referrerPolicy="no-referrer"
+          />
+        </div>
       </section>
 
       {/* 2. Quick Categories (Miller's Law - Grouping) */}
